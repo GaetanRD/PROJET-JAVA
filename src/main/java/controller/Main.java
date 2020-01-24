@@ -33,7 +33,7 @@ public class Main {
 
 			User u = userDAO.find(1);
 
-			System.out.println(u.getFirstName());
+			System.out.println(u.getLogin());
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

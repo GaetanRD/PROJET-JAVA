@@ -34,8 +34,6 @@ public class DefaultDAOUser extends AbstractDAO implements DAOUser {
 			if (r.next()) {
 				User u = new User();
 				u.setId(r.getInt("id"));
-				u.setFirstName(r.getString("first_name"));
-				u.setLastName(r.getString("last_name"));
 				u.setLogin(r.getString("login"));
 				u.setPass(r.getString("pass"));
 
@@ -62,8 +60,6 @@ public class DefaultDAOUser extends AbstractDAO implements DAOUser {
 
 		try {
 			st = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			st.setString(1, obj.getFirstName());
-			st.setString(2, obj.getLastName());
 			st.setString(3, obj.getLogin());
 			st.setString(4, obj.getPass());
 			r = st.executeUpdate();
@@ -102,8 +98,6 @@ public class DefaultDAOUser extends AbstractDAO implements DAOUser {
 
 		try {
 			st = connect.prepareStatement(sql);
-			st.setString(1, obj.getFirstName());
-			st.setString(2, obj.getLastName());
 			st.setString(3, obj.getLogin());
 			st.setString(4, obj.getPass());
 			r = st.executeUpdate();
@@ -161,8 +155,6 @@ public class DefaultDAOUser extends AbstractDAO implements DAOUser {
 			while (r.next()) {
 				final User u = new User();
 				u.setId(r.getInt("id"));
-				u.setFirstName(r.getString("first_name"));
-				u.setLastName(r.getString("last_name"));
 				u.setLogin(r.getString("login"));
 				u.setPass(r.getString("pass"));
 				usersList.add(u);
@@ -197,8 +189,6 @@ public class DefaultDAOUser extends AbstractDAO implements DAOUser {
 			if (r.next()) {
 				User u = new User();
 				u.setId(r.getInt("id"));
-				u.setFirstName(r.getString("first_name"));
-				u.setLastName(r.getString("last_name"));
 				u.setLogin(r.getString("login"));
 				u.setPass(r.getString("pass"));
 
