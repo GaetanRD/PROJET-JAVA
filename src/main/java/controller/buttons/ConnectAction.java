@@ -32,6 +32,8 @@ public class ConnectAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent e) {
 		
+		String file = "{\"login\":\"CocoFox\",\"password\":\"sha1:XXXXXXXX\",\"instruction\":\"connect\"}";
+		
 		System.out.println(windowLogin.getLoginField().getText() + " " + windowLogin.getPasswordField().getText());
 //		Scanner sc = null;
 //
@@ -45,7 +47,7 @@ public class ConnectAction extends AbstractAction {
 //				processClient(clientSocket, test);
 //
 //			}
-////			{"login":"CocoFox","password":"sha1:XXXXXXXX","instruction":"connect"}
+////			
 //		} catch (IOException e1) {
 //			LOG.error("Error during socket init.", e1);
 //		} finally {

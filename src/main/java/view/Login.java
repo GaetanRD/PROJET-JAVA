@@ -10,20 +10,13 @@ import controller.buttons.CloseProgram;
 
 import javax.swing.JButton;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class Login extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JButton connectButton;
-	private JButton quitButton;
 	private JTextField loginField;
 	private JTextField passwordField;
-	private JLabel label;
-
 	public Login() {
 		super();
 
