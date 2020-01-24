@@ -32,7 +32,9 @@ public class ConnectAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent e) {
 		
-		String file = "{\"login\":\"CocoFox\",\"password\":\"sha1:XXXXXXXX\",\"instruction\":\"connect\"}";
+	
+		
+		//String file = "{\"login\":\"CocoFox\",\"password\":\"sha1:XXXXXXXX\",\"instruction\":\"connect\"}";
 		
 		System.out.println(windowLogin.getLoginField().getText() + " " + windowLogin.getPasswordField().getText());
 //		Scanner sc = null;
