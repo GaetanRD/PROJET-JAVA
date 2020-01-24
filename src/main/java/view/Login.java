@@ -1,4 +1,5 @@
 package view;
+
 import javax.swing.*;
 import java.awt.FlowLayout;
 import javax.swing.JFrame;
@@ -13,61 +14,64 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Login extends JFrame {
-	private JButton bouton;
-	private JButton bouton2;
-	private JTextField textpseudo;
-	private JTextField textmdp;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JButton connectButton;
+	private JButton quitButton;
+	private JTextField loginField;
+	private JTextField passwordField;
 	private JLabel label;
+
 	public Login() {
 		super();
-		
+
 		build();
 	}
+
 	private void build() {
 		setTitle("coucou");
-		setSize(400,240);
+		setSize(400, 240);
 		setLocationRelativeTo(null);
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setContentPane(buildContentPanel());
 	}
+
 	private JPanel buildContentPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
-		
+
 		JLabel label = new JLabel("CONNEXION");
-		
+
 		panel.add(label);
-		
-		JTextField textpseudo = new JTextField();
-		textpseudo.setColumns(10); 
-		
-		panel.add(textpseudo);
-		
-		JTextField textmdp = new JTextField();
-		textmdp.setColumns(10);
-		
-		panel.add(textmdp);
-		
-		JButton bouton = new JButton(new ConnectAction("Connexion"));
-		panel.add(bouton);
- 
-		JButton bouton2 = new JButton(new CloseProgram("quitter"));
-		panel.add(bouton2);
-		
-		
+
+		JTextField loginField = new JTextField();
+		loginField.setColumns(10);
+		panel.add(loginField);
+		this.loginField = loginField;
+
+		JTextField passwordField = new JTextField();
+		passwordField.setColumns(10);
+		panel.add(passwordField);
+		this.passwordField = passwordField;
+
+		JButton connectButton = new JButton(new ConnectAction("Connexion", this));
+		panel.add(connectButton);
+
+		JButton quitButton = new JButton(new CloseProgram("Quitter"));
+		panel.add(quitButton);
+
 		return panel;
 	}
-	
-	
-	public JTextField getField1(){
-		return textpseudo;
+
+	public JTextField getLoginField() {
+		return loginField;
 	}
-	
-	public JTextField getField2(){
-		return textmdp;
+
+	public JTextField getPasswordField() {
+		return passwordField;
 	}
-	
-	
 
 }
