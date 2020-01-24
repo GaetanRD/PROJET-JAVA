@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 import view.MainWindow;
-import view.co;
+import view.Login;
 
 public class DisconnectAction extends AbstractAction {
 
@@ -25,7 +25,7 @@ public class DisconnectAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		JOptionPane.showMessageDialog(window, "Vous êtes déconnecté. Retour au menu de connection (En construction)",
 				"Information", JOptionPane.INFORMATION_MESSAGE);
-		co fenetre = new co();
+		Login fenetre = new Login();
 		fenetre.setVisible(true);
 
 	}

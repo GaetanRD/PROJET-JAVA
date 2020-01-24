@@ -8,8 +8,8 @@ import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 
-public class Quit extends AbstractAction {
-	public Quit(String texte){
+public class CloseProgram extends AbstractAction {
+	public CloseProgram(String texte){
 		super(texte);
 	}
  

@@ -1,6 +1,6 @@
 package controller.buttons;
 
-import view.co;
+import view.Login;
 
 import java.awt.Component;
 import java.awt.Graphics;
@@ -10,10 +10,10 @@ import javax.swing.AbstractAction;
 import javax.swing.Icon;
 
 import view.MainWindow;
-import view.co;
+import view.Login;
 
-public class Conne extends AbstractAction {
-	public Conne(String texte){
+public class ConnectAction extends AbstractAction {
+	public ConnectAction(String texte){
 		super(texte);
 	}
  

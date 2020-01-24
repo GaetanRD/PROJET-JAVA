@@ -4,21 +4,21 @@ import java.awt.FlowLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import controller.buttons.Conne;
-import controller.buttons.Quit;
+import controller.buttons.ConnectAction;
+import controller.buttons.CloseProgram;
 
 import javax.swing.JButton;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class co extends JFrame implements ActionListener {
+public class Login extends JFrame {
 	private JButton bouton;
 	private JButton bouton2;
 	private JTextField textpseudo;
 	private JTextField textmdp;
 	private JLabel label;
-	public co() {
+	public Login() {
 		super();
 		
 		build();
@@ -49,10 +49,10 @@ public class co extends JFrame implements ActionListener {
 		
 		panel.add(textmdp);
 		
-		JButton bouton = new JButton(new Conne("Connexion"));
+		JButton bouton = new JButton(new ConnectAction("Connexion"));
 		panel.add(bouton);
  
-		JButton bouton2 = new JButton(new Quit("quitter"));
+		JButton bouton2 = new JButton(new CloseProgram("quitter"));
 		panel.add(bouton2);
 		
 		
@@ -67,6 +67,7 @@ public class co extends JFrame implements ActionListener {
 	public JTextField getField2(){
 		return textmdp;
 	}
+	
 	
 
 }

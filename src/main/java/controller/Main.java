@@ -9,7 +9,7 @@ import model.dao.DAOFactory;
 import model.dao.DAOUser;
 import model.dao.bean.User;
 import view.MainWindow;
-import view.co;
+import view.Login;
 
 public class Main {
 
@@ -18,7 +18,7 @@ public class Main {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				
-				co fenetre = new co();
+				Login fenetre = new Login();
 				fenetre.setVisible(true);
 			}
 			
