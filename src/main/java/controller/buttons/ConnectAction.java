@@ -1,6 +1,7 @@
 package controller.buttons;
 
 import java.awt.event.ActionEvent;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -47,6 +48,7 @@ public class ConnectAction extends AbstractAction {
 			System.out.println("Vous êtes connecter");
 			MainWindow window = new MainWindow();
 			window.setVisible(true);
+			windowLogin.setVisible(false);
 		}
 	}
 

@@ -27,7 +27,7 @@ public class DisconnectAction extends AbstractAction {
 				"Information", JOptionPane.INFORMATION_MESSAGE);
 		Login fenetre = new Login();
 		fenetre.setVisible(true);
-
+		window.setVisible(false);
 	}
 
 }
