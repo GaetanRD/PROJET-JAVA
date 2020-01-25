@@ -25,8 +25,9 @@ public class DisconnectAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		JOptionPane.showMessageDialog(window, "Vous êtes déconnecté. Retour au menu de connection (En construction)",
 				"Information", JOptionPane.INFORMATION_MESSAGE);
-		Login fenetre = new Login();
-		fenetre.setVisible(true);
+		
+		Login windowLogin = new Login();
+		windowLogin.setVisible(true);
 		window.setVisible(false);
 	}
 

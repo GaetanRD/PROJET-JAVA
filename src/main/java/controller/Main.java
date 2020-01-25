@@ -8,7 +8,6 @@ import model.dao.DAOException;
 import model.dao.DAOFactory;
 import model.dao.DAOUser;
 import model.dao.bean.User;
-import view.MainWindow;
 import view.Login;
 
 public class Main {
@@ -18,8 +17,8 @@ public class Main {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				
-				Login fenetre = new Login();
-				fenetre.setVisible(true);
+				Login windowLogin = new Login();
+				windowLogin.setVisible(true);
 			}
 			
 		});

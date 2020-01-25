@@ -8,12 +8,16 @@ import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
+import view.Login;
+
 public class ReceiveMessageProcess implements Runnable {
 	private static final Logger LOG = Logger.getLogger(ReceiveMessageProcess.class.getName());
 	private Socket server;
+	private Login windowLogin;
 
-	public ReceiveMessageProcess(Socket server) {
+	public ReceiveMessageProcess(Socket server, Login windowLogin) {
 		this.server = server;
+		this.windowLogin = windowLogin;
 	}
 
 	@Override
@@ -32,22 +36,22 @@ public class ReceiveMessageProcess implements Runnable {
 			while (line != null) {
 				final String ip = server.getInetAddress().getHostAddress();
 				LOG.info(ip + " : " + line);
-
+				windowLogin.setResponseServer("Reponse du serveur : " + line);
 				// Read the next line readed on the network stream.
 				line = br.readLine();
 			}
 
 		} catch (IOException e) {
-			LOG.error("Error during reading message from the client.", e);
+			LOG.error("Error during reading message from the server.", e);
 		} finally {
 			try {
-				if(br != null) {
+				if (br != null) {
 					br.close();
 				}
-				if(isr != null) {
+				if (isr != null) {
 					isr.close();
 				}
-				if(in != null) {
+				if (in != null) {
 					in.close();
 				}
 			} catch (IOException e) {

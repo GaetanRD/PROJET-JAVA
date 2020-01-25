@@ -22,7 +22,8 @@ public class ConnectAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(ConnectAction.class.getName());
 	private Login windowLogin;
-
+	private String response;
+	
 	public ConnectAction(String text, Login windowLogin) {
 		super(text);
 		this.windowLogin = windowLogin;
@@ -36,16 +37,14 @@ public class ConnectAction extends AbstractAction {
 
 		try {
 			// Create a stream on the client keyboard input.
-			while (true) {
-				final Socket clientSocket = new Socket("192.168.32.129", 4567);
-				processClient(clientSocket, file);
-				new Thread(new ReceiveMessageProcess(clientSocket)).start();
-			}
+			final Socket clientSocket = new Socket("192.168.32.129", 4567);
+			processClient(clientSocket, file);
+			new Thread(new ReceiveMessageProcess(clientSocket, windowLogin)).start();
 
 		} catch (IOException e1) {
-//			LOG.error("Error during socket init.", e1);
+			LOG.error("Error during socket init.", e1);
 		} finally {
-			System.out.println("Vous êtes connecter");
+			System.out.println(windowLogin.getResponseServer() + " : Vous êtes connecter");
 			MainWindow window = new MainWindow();
 			window.setVisible(true);
 			windowLogin.setVisible(false);
@@ -68,7 +67,7 @@ public class ConnectAction extends AbstractAction {
 		OutputStreamWriter osw = null;
 		PrintWriter pw = null;
 
-//		LOG.info("[CLIENT] - Message : " + msg);
+		LOG.info("[CLIENT] - Message : " + msg);
 		try {
 			// Open the output stream of the client socket.
 			out = clientSocket.getOutputStream();
@@ -80,15 +79,9 @@ public class ConnectAction extends AbstractAction {
 			pw.flush();
 
 		} catch (IOException e) {
-//			LOG.error("Error during socket outputstream.", e);
+			LOG.error("Error during socket outputstream.", e);
 		} finally {
-			try {
-				if (clientSocket != null) {
-					clientSocket.close();
-				}
-			} catch (IOException e) {
-//				LOG.error("Error during stream closing.", e);
-			}
+			
 		}
 	}
 
@@ -98,6 +91,15 @@ public class ConnectAction extends AbstractAction {
 
 	public void setWindowLogin(Login windowLogin) {
 		this.windowLogin = windowLogin;
+	}
+	
+
+	public String getResponse() {
+		return response;
+	}
+
+	public void setResponse(String response) {
+		this.response = response;
 	}
 
 }

@@ -17,6 +17,8 @@ public class Login extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField loginField;
 	private JTextField passwordField;
+	private String responseServer;
+
 	public Login() {
 		super();
 
@@ -24,7 +26,7 @@ public class Login extends JFrame {
 	}
 
 	private void build() {
-		setTitle("coucou");
+		setTitle("Chat-IRC Connexion");
 		setSize(400, 240);
 		setLocationRelativeTo(null);
 		setResizable(true);
@@ -36,8 +38,7 @@ public class Login extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
 
-		JLabel label = new JLabel("CONNEXION");
-
+		JLabel label = new JLabel("Veuillez vous connecter");
 		panel.add(label);
 
 		JTextField loginField = new JTextField();
@@ -52,6 +53,8 @@ public class Login extends JFrame {
 
 		JButton connectButton = new JButton(new ConnectAction("Connexion", this));
 		panel.add(connectButton);
+		
+		System.out.println("Reponse du serveur 2 : " + this.responseServer);
 
 		JButton quitButton = new JButton(new CloseProgram("Quitter"));
 		panel.add(quitButton);
@@ -62,9 +65,21 @@ public class Login extends JFrame {
 	public JTextField getLoginField() {
 		return loginField;
 	}
+	
+	public void setLoginField(JTextField loginField) {
+		this.loginField = loginField;
+	}
 
 	public JTextField getPasswordField() {
 		return passwordField;
+	}
+
+	public String getResponseServer() {
+		return responseServer;
+	}
+
+	public void setResponseServer(String responseServer) {
+		this.responseServer = responseServer;
 	}
 
 }
