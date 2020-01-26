@@ -1,3 +1,12 @@
+/** 
+ * Chat-IRC Project by Gaetan and Morgan for the Cnam 
+ * Tutor Romain BLIN
+ * 
+ * This class has used for the main window
+ * 
+ * 
+ */
+
 package view;
 
 import java.awt.Color;
@@ -10,11 +19,10 @@ import javax.swing.JTextField;
 
 import controller.buttons.DisconnectAction;
 import controller.buttons.MenuSetLogin;
+import model.userConfigs.UserConfigs;
 
 public class MainWindow extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private JPanel panel = new JPanel();
@@ -47,7 +55,7 @@ public class MainWindow extends JFrame {
 		setTitle("Chat - IRC Project");
 		setSize(800, 600);
 		setLocationRelativeTo(null);
-		setResizable(true);
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setContentPane(buildContentPane());
 
@@ -102,7 +110,13 @@ public class MainWindow extends JFrame {
 	}
 
 	private void SendButton() {
-		sendButton.setEnabled(false);
+		
+		if(UserConfigs.isLogged() && UserConfigs.isConnectedToAChannel()) {
+			sendButton.setEnabled(true);
+		} else {
+			sendButton.setEnabled(false);
+		}
+		
 		sendButton.setLocation(
 				((this.getWidth() - mainLabel.getWidth() - 20) / 2) + mainLabel.getWidth() - buttonWidth / 4,
 				textAreaChannels.getY() + textAreaChannels.getHeight() + 10);
@@ -111,31 +125,39 @@ public class MainWindow extends JFrame {
 	}
 
 	private void MainLabel() {
-
-//		mainLabel.setOpaque(true);
-//		mainLabel.setBackground(Color.WHITE);
 		mainLabel.setLocation(10, 10);
 		mainLabel.setSize(550, this.getHeight() - 100);
 		mainLabel.setEnabled(false);
 		panel.add(mainLabel, null);
 
-		buttonSetLogin.setSize(buttonWidth, buttonHeight);
-		buttonSetLogin.setLocation(mainLabel.getWidth() / 2 - buttonWidth / 2, 20);
-		panel.add(buttonSetLogin, null);
-
-		buttonSetPass.setSize(buttonWidth, buttonHeight);
-		buttonSetPass.setLocation(mainLabel.getWidth() / 2 - buttonWidth / 2,
-				buttonSetLogin.getY() + buttonSetLogin.getHeight() + 20);
-		panel.add(buttonSetPass, null);
-
+		
+//		buttonSetLogin.setSize(buttonWidth, buttonHeight);
+//		buttonSetLogin.setLocation(mainLabel.getWidth() / 2 - buttonWidth / 2, 20);
+//		panel.add(buttonSetLogin, null);
+//
+//		buttonSetPass.setSize(buttonWidth, buttonHeight);
+//		buttonSetPass.setLocation(mainLabel.getWidth() / 2 - buttonWidth / 2,
+//				buttonSetLogin.getY() + buttonSetLogin.getHeight() + 20);
+//		panel.add(buttonSetPass, null);
+		
 		buttonDisplayLogs.setSize(buttonWidth, buttonHeight);
 		buttonDisplayLogs.setLocation(mainLabel.getWidth() / 2 - buttonWidth / 2,
 				buttonSetPass.getY() + buttonSetPass.getHeight() + 20);
-		panel.add(buttonDisplayLogs, null);
+		
+		if(UserConfigs.isLogged() && !UserConfigs.isConnectedToAChannel()) {
+			panel.add(buttonDisplayLogs, null);
+		}
 
 	}
 
 	private void TextField() {
+		
+		if(UserConfigs.isLogged() && UserConfigs.isConnectedToAChannel()) {
+			textfield.setEnabled(true);
+		} else {
+			textfield.setEnabled(false);
+		}
+
 		textfield.setEnabled(false);
 		textfield.setLocation(10, sendButton.getY());
 		textfield.setSize(sendButton.getX() - 20, 20);

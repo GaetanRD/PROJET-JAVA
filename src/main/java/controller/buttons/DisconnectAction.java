@@ -1,34 +1,37 @@
+/** 
+ * Chat-IRC Project by Gaetan and Morgan for the Cnam 
+ * Tutor Romain BLIN
+ * 
+ * This class is used for the action of the button of disconnection
+ * 
+ */
+
 package controller.buttons;
 
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
+import controller.messages.SendMessageProcess;
+import model.userConfigs.UserConfigs;
 import view.MainWindow;
-import view.Login;
 
 public class DisconnectAction extends AbstractAction {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-	private MainWindow window;
+	private MainWindow mainWindow;
 
 	public DisconnectAction(MainWindow window, String text) {
 		super(text);
-
-		this.window = window;
+		this.mainWindow = window;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JOptionPane.showMessageDialog(window, "Vous êtes déconnecté. Retour au menu de connection (En construction)",
-				"Information", JOptionPane.INFORMATION_MESSAGE);
-		
-		Login windowLogin = new Login();
-		windowLogin.setVisible(true);
-		window.setVisible(false);
+		System.out.println("-------- Bouton de déconnexion cliqué -----------");
+		SendMessageProcess smp = new SendMessageProcess(this.mainWindow);
+
+		smp.SendMessageProcessForDisconnection(UserConfigs.getLogin(), UserConfigs.getPass(), "localhost", 4567);
+
 	}
 
 }

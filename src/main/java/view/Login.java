@@ -1,3 +1,12 @@
+/** 
+ * Chat-IRC Project by Gaetan and Morgan for the Cnam 
+ * Tutor Romain BLIN
+ * 
+ * This class has used for the login window
+ * 
+ * 
+ */
+
 package view;
 
 import javax.swing.*;
@@ -11,13 +20,10 @@ import controller.buttons.CloseProgram;
 import javax.swing.JButton;
 
 public class Login extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private JTextField loginField;
 	private JTextField passwordField;
-	private String responseServer;
 
 	public Login() {
 		super();
@@ -53,8 +59,6 @@ public class Login extends JFrame {
 
 		JButton connectButton = new JButton(new ConnectAction("Connexion", this));
 		panel.add(connectButton);
-		
-		System.out.println("Reponse du serveur 2 : " + this.responseServer);
 
 		JButton quitButton = new JButton(new CloseProgram("Quitter"));
 		panel.add(quitButton);
@@ -65,21 +69,9 @@ public class Login extends JFrame {
 	public JTextField getLoginField() {
 		return loginField;
 	}
-	
-	public void setLoginField(JTextField loginField) {
-		this.loginField = loginField;
-	}
 
 	public JTextField getPasswordField() {
 		return passwordField;
-	}
-
-	public String getResponseServer() {
-		return responseServer;
-	}
-
-	public void setResponseServer(String responseServer) {
-		this.responseServer = responseServer;
 	}
 
 }

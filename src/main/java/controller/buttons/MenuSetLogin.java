@@ -1,3 +1,11 @@
+/** 
+ * Chat-IRC Project by Gaetan and Morgan for the Cnam 
+ * Tutor Romain BLIN
+ * 
+ * This class is building it
+ * 
+ */
+
 package controller.buttons;
 
 import java.awt.event.ActionEvent;

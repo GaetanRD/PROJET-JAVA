@@ -1,20 +1,25 @@
+/** 
+ * Chat-IRC Project by Gaetan and Morgan for the Cnam 
+ * Tutor Romain BLIN
+ * 
+ * This class is used to close the program
+ * 
+ */
+
 package controller.buttons;
 
-import java.awt.Component;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.Icon;
-import javax.swing.JOptionPane;
 
 public class CloseProgram extends AbstractAction {
-	public CloseProgram(String texte){
+	private static final long serialVersionUID = 1L;
+
+	public CloseProgram(String texte) {
 		super(texte);
 	}
- 
-	public void actionPerformed(ActionEvent e) { 
-		System.out.println("Vous êtes déconnecté. Retour au menu Login");
+
+	public void actionPerformed(ActionEvent e) {
 		System.exit(0);
-	} 
+	}
 }

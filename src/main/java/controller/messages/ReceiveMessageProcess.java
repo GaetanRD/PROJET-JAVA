@@ -1,3 +1,12 @@
+/** 
+ * Chat-IRC Project by Gaetan and Morgan for the Cnam 
+ * Tutor Romain BLIN
+ * 
+ * This class is used for the process when the server send a message to the app
+ * 
+ * 
+ */
+
 package controller.messages;
 
 import java.io.BufferedReader;
@@ -8,19 +17,30 @@ import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
+import controller.DecodeJSon;
+import controller.codes.CodeSwitch;
 import view.Login;
+import view.MainWindow;
 
 public class ReceiveMessageProcess implements Runnable {
 	private static final Logger LOG = Logger.getLogger(ReceiveMessageProcess.class.getName());
 	private Socket server;
 	private Login windowLogin;
+	private MainWindow window;
+	static String message;
 
 	public ReceiveMessageProcess(Socket server, Login windowLogin) {
 		this.server = server;
 		this.windowLogin = windowLogin;
 	}
+	
+	public ReceiveMessageProcess(Socket server, MainWindow window) {
+		this.server = server;
+		this.window = window;
+	}
 
-	@Override
+	
+
 	public void run() {
 		InputStream in = null;
 		InputStreamReader isr = null;
@@ -33,13 +53,17 @@ public class ReceiveMessageProcess implements Runnable {
 
 			// Read the first line of the network stream
 			String line = br.readLine();
-			while (line != null) {
-				final String ip = server.getInetAddress().getHostAddress();
-				LOG.info(ip + " : " + line);
-				windowLogin.setResponseServer("Reponse du serveur : " + line);
-				// Read the next line readed on the network stream.
-				line = br.readLine();
-			}
+			final String ip = server.getInetAddress().getHostAddress();
+			LOG.info(ip + " : " + line);
+			DecodeJSon dJson = new DecodeJSon(line);
+			System.out.println("-------" + dJson.getaObj().get(0));
+			
+			if (this.window != null) {
+				new CodeSwitch((Integer)dJson.getaObj().get(0), (String)dJson.getaObj().get(1), window);
+			} else if (this.windowLogin != null) {
+				new CodeSwitch((Integer)dJson.getaObj().get(0), (String)dJson.getaObj().get(1), windowLogin);
+			}			
+		
 
 		} catch (IOException e) {
 			LOG.error("Error during reading message from the server.", e);
@@ -58,6 +82,7 @@ public class ReceiveMessageProcess implements Runnable {
 				LOG.error("Error during stream closing.", e);
 			}
 		}
+
 	}
 
 }
