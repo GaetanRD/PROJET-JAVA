@@ -30,7 +30,7 @@ public class DisconnectAction extends AbstractAction {
 		System.out.println("-------- Bouton de déconnexion cliqué -----------");
 		SendMessageProcess smp = new SendMessageProcess(this.mainWindow);
 
-		smp.SendMessageProcessForDisconnection(UserConfigs.getLogin(), UserConfigs.getPass(), "localhost", 4567);
+		smp.SendMessageProcessForDisconnection(UserConfigs.getLogin(), UserConfigs.getPass(), UserConfigs.getServer(), UserConfigs.getPort());
 
 	}
 

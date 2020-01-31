@@ -26,56 +26,56 @@ public class SendMessageProcess {
 	private static final Logger LOG = Logger.getLogger(ConnectAction.class.getName());
 	private Login windowLogin;
 	private MainWindow mainWindow;
-	private Socket clientSocket;
 
 	public SendMessageProcess(Login windowLogin) {
 		this.windowLogin = windowLogin;
+		UserConfigs.getClientSocket();
 
 	}
-	
+
 	public SendMessageProcess(MainWindow mainWindow) {
 		this.mainWindow = mainWindow;
 
 	}
 
 	public void SendMessageProcessForConnection(String login, String pass, String server, int port) {
-		String msg = "{\"login\":\"" + login + "\",\"password\":\"sha1:" + pass + "\",\"instruction\":\"connect\"}\n";
+		String msg = "{\"login\":\"" + login + "\",\"password\":\"sha1:" + pass + "\",\"instruction\":\"connect\"}";
 		UserConfigs.setLogin(login);
 		UserConfigs.setPass(pass);
-		
+		UserConfigs.setServer(server);
+		UserConfigs.setPort(port);
 
 		try {
-			clientSocket = new Socket(server, port);
+			UserConfigs.setClientSocket(new Socket(server, port));
 		} catch (IOException e1) {
 			LOG.error("Error during socket init.", e1);
 		} finally {
-			processClient(clientSocket, msg);
-			new Thread(new ReceiveMessageProcess(clientSocket, this.windowLogin)).start();
+			processClient(msg);
+			new Thread(new ReceiveMessageProcess(this.windowLogin, "connect")).start();
 
 		}
 
 	}
 
-	public boolean SendMessageProcessForDisconnection(String login, String pass, String server, int port) {
+	public void SendMessageProcessForChannelsList(String login, String pass, String server, int port) {
 		String msg = "{\"login\":\"" + login + "\",\"password\":\"sha1:" + pass
-				+ "\",\"instruction\":\"disconnect\"}\n";
+				+ "\",\"instruction\":\"list_channels\"}";
 
-		try {
-			clientSocket = new Socket(server, port);
-		} catch (IOException e1) {
-			LOG.error("Error during socket init.", e1);
-			return false;
-		} finally {
-			processClient(clientSocket, msg);
-			new Thread(new ReceiveMessageProcess(clientSocket, this.mainWindow)).start();
-
-		}
-
-		return true;
+		processClient(msg);
+		new Thread(new ReceiveMessageProcess(this.mainWindow, "list_channels")).start();
 
 	}
 
-	private void processClient(Socket clientSocket, String msg) {
+	public void SendMessageProcessForDisconnection(String login, String pass, String server, int port) {
+		String msg = "{\"login\":\"" + login + "\",\"password\":\"sha1:" + pass
+				+ "\",\"instruction\":\"disconnect\"}";
+
+		processClient(msg);
+		new Thread(new ReceiveMessageProcess(this.mainWindow, "disconnect")).start();
+
+	}
+
+	private void processClient(String msg) {
 		OutputStream out = null;
 		OutputStreamWriter osw = null;
 		PrintWriter pw = null;
@@ -83,7 +83,7 @@ public class SendMessageProcess {
 		LOG.info("[CLIENT] - Message : " + msg);
 		try {
 			// Open the output stream of the client socket.
-			out = clientSocket.getOutputStream();
+			out = UserConfigs.getClientSocket().getOutputStream();
 			osw = new OutputStreamWriter(out);
 			pw = new PrintWriter(osw);
 

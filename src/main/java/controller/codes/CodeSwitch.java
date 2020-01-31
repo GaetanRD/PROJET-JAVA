@@ -19,7 +19,7 @@ public class CodeSwitch {
 
 	// Switch for the different codes and call the method the app need to use. If
 	// the parent wondow is the login window
-	public CodeSwitch(int code, String message, Login loginWindow) {
+	public CodeSwitch(int code, String message, Login loginWindow, String instruction) {
 		switch (code) {
 		case 200:
 			connectWindow(loginWindow, message);
@@ -42,14 +42,16 @@ public class CodeSwitch {
 		JOptionPane.showMessageDialog(loginWindow, message + ". Bienvenue " + UserConfigs.getLogin(),
 				"Information", JOptionPane.INFORMATION_MESSAGE);
 		
+		
 		UserConfigs.setLogged(true);
 		UserConfigs.setConnectedToAChannel(false);
+		
 		
 
 		MainWindow window = new MainWindow();
 		window.setVisible(true);
 		loginWindow.setVisible(false);
-
+		
 	}
 
 	private void errorConnection(int code, Login loginWindow, String message) {
@@ -58,26 +60,29 @@ public class CodeSwitch {
 
 	}
 	
-	private void error(Login loginWindow) {
-		JOptionPane.showMessageDialog(loginWindow, "xxx - Une erreur s'est produite", "Information", JOptionPane.INFORMATION_MESSAGE);
-	}
 
 	// Switch for the different codes and call the method the app need to use. If
 	// the parent window is the login main window
-	public CodeSwitch(int code, String message, MainWindow mainWindow) {
+	public CodeSwitch(int code, String message, MainWindow mainWindow, String instruction) {
 		switch (code) {
 		case 200:
-			disconnectWindow(mainWindow);
+			System.out.println(instruction);
+			if(instruction == "disconnect") {
+				disconnectWindow(mainWindow);
+			} else if(instruction == "list_channels") {
+				
+			}
+			
 			break;
 		case 312:
-			errorWasNotConnected(mainWindow);
+			errorConnection(code, mainWindow, message);
 			break;
 		case 000:
-			errorUnknow(mainWindow);
+			errorConnection(code, mainWindow, message);
 			break;
 
 		default:
-			error(mainWindow);
+			errorConnection(000, mainWindow, message);
 			break;
 		}
 	}
@@ -102,16 +107,11 @@ public class CodeSwitch {
 
 	}
 	
-	private void errorWasNotConnected(MainWindow mainWindow) {
-		JOptionPane.showMessageDialog(mainWindow, "312 - Erreur de conn", "Information", JOptionPane.INFORMATION_MESSAGE);
+	private void errorConnection(int code, MainWindow mainWindow, String message) {
+		JOptionPane.showMessageDialog(mainWindow, code + " - " + message + ". Quittez et réessayez.", "Information",
+				JOptionPane.INFORMATION_MESSAGE);
+
 	}
 	
-	private void errorUnknow(MainWindow mainWindow) {
-		JOptionPane.showMessageDialog(mainWindow, "000 - Une erreur inconnue est survenue", "Information", JOptionPane.INFORMATION_MESSAGE);
-	}
-	
-	private void error(MainWindow mainWindow) {
-		JOptionPane.showMessageDialog(mainWindow, "xxx - Une erreur s'est produite", "Information", JOptionPane.INFORMATION_MESSAGE);
-	}
 
 }

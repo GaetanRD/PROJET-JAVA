@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 
 import controller.buttons.DisconnectAction;
 import controller.buttons.MenuSetLogin;
+import controller.messages.SendMessageProcess;
 import model.userConfigs.UserConfigs;
 
 public class MainWindow extends JFrame {
@@ -36,7 +37,6 @@ public class MainWindow extends JFrame {
 
 	private JTextField textfield = new JTextField();
 
-	private JButton buttonSetLogin = new JButton(new MenuSetLogin(this, "Modifier votre pseudo"));
 	private JButton buttonSetPass = new JButton("Modifier votre mot de passe");
 	private JButton buttonDisplayLogs = new JButton("Accèder aux logs");
 	private JButton disconnectButton = new JButton(new DisconnectAction(this, "Se déconnecter"));
@@ -129,16 +129,6 @@ public class MainWindow extends JFrame {
 		mainLabel.setSize(550, this.getHeight() - 100);
 		mainLabel.setEnabled(false);
 		panel.add(mainLabel, null);
-
-		
-//		buttonSetLogin.setSize(buttonWidth, buttonHeight);
-//		buttonSetLogin.setLocation(mainLabel.getWidth() / 2 - buttonWidth / 2, 20);
-//		panel.add(buttonSetLogin, null);
-//
-//		buttonSetPass.setSize(buttonWidth, buttonHeight);
-//		buttonSetPass.setLocation(mainLabel.getWidth() / 2 - buttonWidth / 2,
-//				buttonSetLogin.getY() + buttonSetLogin.getHeight() + 20);
-//		panel.add(buttonSetPass, null);
 		
 		buttonDisplayLogs.setSize(buttonWidth, buttonHeight);
 		buttonDisplayLogs.setLocation(mainLabel.getWidth() / 2 - buttonWidth / 2,
@@ -163,5 +153,12 @@ public class MainWindow extends JFrame {
 		textfield.setSize(sendButton.getX() - 20, 20);
 		panel.add(textfield, null);
 	}
+	
+	public JTextArea getTextAreaChannels() {
+		return textAreaChannels;
+	}
 
+	public void setTextAreaChannels(JTextArea textAreaChannels) {
+		this.textAreaChannels = textAreaChannels;
+	}
 }

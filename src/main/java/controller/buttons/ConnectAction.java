@@ -33,13 +33,16 @@ public class ConnectAction extends AbstractAction {
 
 		if (this.loginWindow.getLoginField().getText().isEmpty()
 				|| this.loginWindow.getPasswordField().getText().isEmpty()) {
-			JOptionPane.showMessageDialog(this.loginWindow, "Erreur : des champs sont vides",
-					"Information", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this.loginWindow, "Erreur : des champs sont vides", "Information",
+					JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			SendMessageProcess smp = new SendMessageProcess(this.loginWindow);
 
+			/*smp.SendMessageProcessForConnection(this.loginWindow.getLoginField().getText(),
+					this.loginWindow.getPasswordField().getText(), "192.168.32.47", 4567);*/
 			smp.SendMessageProcessForConnection(this.loginWindow.getLoginField().getText(),
-					this.loginWindow.getPasswordField().getText(), "localhost", 4567);
+							this.loginWindow.getPasswordField().getText(), "localhost", 4567);
+
 		}
 
 	}

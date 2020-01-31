@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 
 import controller.DecodeJSon;
 import controller.codes.CodeSwitch;
+import model.userConfigs.UserConfigs;
 import view.Login;
 import view.MainWindow;
 
@@ -27,16 +28,18 @@ public class ReceiveMessageProcess implements Runnable {
 	private Socket server;
 	private Login windowLogin;
 	private MainWindow window;
-	static String message;
+	private String instruction;
 
-	public ReceiveMessageProcess(Socket server, Login windowLogin) {
-		this.server = server;
+	public ReceiveMessageProcess(Login windowLogin, String instruction) {
+		this.server = UserConfigs.getClientSocket();
 		this.windowLogin = windowLogin;
+		this.instruction = instruction;
 	}
 	
-	public ReceiveMessageProcess(Socket server, MainWindow window) {
-		this.server = server;
+	public ReceiveMessageProcess(MainWindow window, String instruction) {
+		this.server = UserConfigs.getClientSocket();;
 		this.window = window;
+		this.instruction = instruction;
 	}
 
 	
@@ -59,28 +62,16 @@ public class ReceiveMessageProcess implements Runnable {
 			System.out.println("-------" + dJson.getaObj().get(0));
 			
 			if (this.window != null) {
-				new CodeSwitch((Integer)dJson.getaObj().get(0), (String)dJson.getaObj().get(1), window);
+				new CodeSwitch((Integer)dJson.getaObj().get(0), (String)dJson.getaObj().get(1), this.window, this.instruction);
 			} else if (this.windowLogin != null) {
-				new CodeSwitch((Integer)dJson.getaObj().get(0), (String)dJson.getaObj().get(1), windowLogin);
+				new CodeSwitch((Integer)dJson.getaObj().get(0), (String)dJson.getaObj().get(1), this.windowLogin, this.instruction);
 			}			
 		
-
+			
 		} catch (IOException e) {
 			LOG.error("Error during reading message from the server.", e);
 		} finally {
-			try {
-				if (br != null) {
-					br.close();
-				}
-				if (isr != null) {
-					isr.close();
-				}
-				if (in != null) {
-					in.close();
-				}
-			} catch (IOException e) {
-				LOG.error("Error during stream closing.", e);
-			}
+			
 		}
 
 	}
