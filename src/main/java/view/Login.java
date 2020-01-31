@@ -57,7 +57,7 @@ public class Login extends JFrame {
 		panel.add(passwordField);
 		this.passwordField = passwordField;
 
-		JButton connectButton = new JButton(new ConnectAction("Connexion", this));
+		JButton connectButton = new JButton(new ConnectAction("Connexion"));
 		panel.add(connectButton);
 
 		JButton quitButton = new JButton(new CloseProgram("Quitter"));

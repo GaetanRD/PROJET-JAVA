@@ -18,19 +18,18 @@ public class DisconnectAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 
-	private MainWindow mainWindow;
-
 	public DisconnectAction(MainWindow window, String text) {
 		super(text);
-		this.mainWindow = window;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("-------- Bouton de déconnexion cliqué -----------");
-		SendMessageProcess smp = new SendMessageProcess(this.mainWindow);
+		
+		UserConfigs.setInstruction("disconnect");
+		SendMessageProcess smp = new SendMessageProcess();
 
-		smp.SendMessageProcessForDisconnection(UserConfigs.getLogin(), UserConfigs.getPass(), UserConfigs.getServer(), UserConfigs.getPort());
+		smp.SendMessageProcess();
 
 	}
 

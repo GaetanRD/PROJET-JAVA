@@ -26,7 +26,7 @@ public class CodeSwitch {
 		case 200:
 			if(!UserConfigs.isLogged()) {
 				connectWindow(message);
-			} else if(UserConfigs.isLogged()) {
+			} else {
 				disconnectWindow();
 			} 
 			break;
@@ -54,10 +54,6 @@ public class CodeSwitch {
 		window.setVisible(true);
 		UserConfigs.setMainWindow(window);
 		UserConfigs.exitLoginWindow();
-
-		// SendMessageProcess smp = new SendMessageProcess(window);
-		// smp.SendMessageProcessForChannelsList(UserConfigs.getLogin(),
-		// UserConfigs.getPass(), UserConfigs.getServer(), UserConfigs.getPort());
 
 	}
 

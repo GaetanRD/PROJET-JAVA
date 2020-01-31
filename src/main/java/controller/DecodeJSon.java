@@ -14,9 +14,6 @@ import org.json.JSONObject;
 
 public class DecodeJSon {
 
-	/*
-	 * Variables
-	 */
 	private JSONObject obj;
 	private ArrayList<Object> aObj;
 

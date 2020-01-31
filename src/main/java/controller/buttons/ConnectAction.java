@@ -14,34 +14,37 @@ import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 import controller.messages.SendMessageProcess;
+import model.userConfigs.UserConfigs;
 import view.Login;
 
 public class ConnectAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 
-	private Login loginWindow;
-
-	public ConnectAction(String text, Login windowLogin) {
+	public ConnectAction(String text) {
 		super(text);
-		this.loginWindow = windowLogin;
 
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("-------- Bouton de connexion cliqué -----------");
 
-		if (this.loginWindow.getLoginField().getText().isEmpty()
-				|| this.loginWindow.getPasswordField().getText().isEmpty()) {
-			JOptionPane.showMessageDialog(this.loginWindow, "Erreur : des champs sont vides", "Information",
+		if (UserConfigs.getLoginWindow().getLoginField().getText().isEmpty()
+				|| UserConfigs.getLoginWindow().getPasswordField().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Erreur : des champs sont vides", "Information",
 					JOptionPane.INFORMATION_MESSAGE);
-		} else {
-			SendMessageProcess smp = new SendMessageProcess(this.loginWindow);
 
-			smp.SendMessageProcessForConnection(this.loginWindow.getLoginField().getText(),
-					this.loginWindow.getPasswordField().getText(), "192.168.32.47", 4567);
-////			smp.SendMessageProcessForConnection(this.loginWindow.getLoginField().getText(),
-//							this.loginWindow.getPasswordField().getText(), "localhost", 4567);
+		} else {
+			UserConfigs.setLogin(UserConfigs.getLoginWindow().getLoginField().getText());
+			UserConfigs.setPass(UserConfigs.getLoginWindow().getPasswordField().getText());
+			UserConfigs.setServer("localhost");
+			UserConfigs.setPort(4567);
+			UserConfigs.setInstruction("connect");
+			SendMessageProcess smp = new SendMessageProcess();
+//
+//			smp.SendMessageProcessForConnection(this.loginWindow.getLoginField().getText(),
+//				this.loginWindow.getPasswordField().getText(), "192.168.32.47", 4567);
+			smp.SendMessageProcess();
 
 		}
 

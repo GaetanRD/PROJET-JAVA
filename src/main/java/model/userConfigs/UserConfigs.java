@@ -20,6 +20,7 @@ public class UserConfigs {
 	private static String login;
 	private static String pass;
 	private static String server;
+	private static String instruction;
 	private static int port;
 	
 	private static Login loginWindow;
@@ -121,6 +122,14 @@ public class UserConfigs {
 
 	public static void setMainWindow(MainWindow mainWindow) {
 		UserConfigs.mainWindow = mainWindow;
+	}
+
+	public static String getInstruction() {
+		return instruction;
+	}
+
+	public static void setInstruction(String instruction) {
+		UserConfigs.instruction = instruction;
 	}
 
 }

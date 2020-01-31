@@ -19,57 +19,31 @@ import org.apache.log4j.Logger;
 import controller.buttons.ConnectAction;
 import controller.threads.ThreadListener;
 import model.userConfigs.UserConfigs;
-import view.Login;
-import view.MainWindow;
 
 public class SendMessageProcess {
 
 	private static final Logger LOG = Logger.getLogger(ConnectAction.class.getName());
-	public SendMessageProcess(Login windowLogin) {
-		UserConfigs.getClientSocket();
+
+	public SendMessageProcess() {
 
 	}
 
-	public SendMessageProcess(MainWindow mainWindow) {
+	public void SendMessageProcess() {
+		String msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
+				+ "\",\"instruction\":" + UserConfigs.getInstruction() + "}";
 
-	}
-
-	public void SendMessageProcessForConnection(String login, String pass, String server, int port) {
-		String msg = "{\"login\":\"" + login + "\",\"password\":\"sha1:" + pass + "\",\"instruction\":\"connect\"}";
-		UserConfigs.setLogin(login);
-		UserConfigs.setPass(pass);
-		UserConfigs.setServer(server);
-		UserConfigs.setPort(port);
-
-		try {
-			UserConfigs.setClientSocket(new Socket(server, port));
-			Thread t = new Thread(new ThreadListener());
-			t.start();
+		if (!UserConfigs.isLogged()) {
+			try {
+				UserConfigs.setClientSocket(new Socket(UserConfigs.getServer(), UserConfigs.getPort()));
+				Thread t = new Thread(new ThreadListener());
+				t.start();
+				processClient(msg);
+			} catch (IOException e1) {
+				LOG.error("Error during socket init.", e1);
+			}
+		} else {
 			processClient(msg);
-		} catch (IOException e1) {
-			LOG.error("Error during socket init.", e1);
 		}
-
-	}
-
-	public void SendMessageProcessForChannelsList(String login, String pass, String server, int port) {
-		String msg = "{\"login\":\"" + login + "\",\"password\":\"sha1:" + pass
-				+ "\",\"instruction\":\"list_channels\"}";
-		
-
-		processClient(msg);
-		
-		
-	
-	}
-
-	public void SendMessageProcessForDisconnection(String login, String pass, String server, int port) {
-		String msg = "{\"login\":\"" + login + "\",\"password\":\"sha1:" + pass
-				+ "\",\"instruction\":\"disconnect\"}";
-
-		processClient(msg);
-		
-		
 
 	}
 
@@ -91,8 +65,6 @@ public class SendMessageProcess {
 
 		} catch (IOException e) {
 			LOG.error("Error during socket outputstream.", e);
-		} finally {
-
 		}
 	}
 
