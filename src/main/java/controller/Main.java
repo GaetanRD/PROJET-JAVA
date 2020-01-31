@@ -10,6 +10,7 @@ package controller;
 
 import javax.swing.SwingUtilities;
 
+import model.userConfigs.UserConfigs;
 import view.Login;
 
 public class Main {
@@ -21,6 +22,7 @@ public class Main {
 
 				Login windowLogin = new Login();
 				windowLogin.setVisible(true);
+				UserConfigs.setLoginWindow(windowLogin);
 			}
 
 		});
