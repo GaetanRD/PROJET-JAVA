@@ -19,76 +19,53 @@ public class CodeSwitch {
 
 	// Switch for the different codes and call the method the app need to use. If
 	// the parent wondow is the login window
-	public CodeSwitch(int code, String message, Login loginWindow, String instruction) {
+	public CodeSwitch(int code, String message) {
+		System.out.println(code);
+		
 		switch (code) {
 		case 200:
-			connectWindow(loginWindow, message);
+			if(!UserConfigs.isLogged()) {
+				connectWindow(message);
+			} else if(UserConfigs.isLogged()) {
+				disconnectWindow();
+			} 
 			break;
-
 		case 310:
-			errorConnection(code, loginWindow, message);
-			break;
-		case 311:
-			errorConnection(code, loginWindow, message);
-			break;
-		
+			errorConnection(code, message);
+						break;
+//		case 311:
+//			errorConnection(code, loginWindow, message);
+//			break;
+//		
 		default:
-			errorConnection(000, loginWindow, message);
+		//	errorConnection(000, loginWindow, message);
 			break;
 		}
 	}
 
-	private static void connectWindow(Login loginWindow, String message) {
-		JOptionPane.showMessageDialog(loginWindow, message + ". Bienvenue " + UserConfigs.getLogin(),
+	private static void connectWindow(String message) {
+		JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), message + ". Bienvenue " + UserConfigs.getLogin(),
 				"Information", JOptionPane.INFORMATION_MESSAGE);
-		
-		
+
 		UserConfigs.setLogged(true);
 		UserConfigs.setConnectedToAChannel(false);
-		
-		
 
 		MainWindow window = new MainWindow();
 		window.setVisible(true);
-		loginWindow.setVisible(false);
-		
-	}
+		UserConfigs.setMainWindow(window);
+		UserConfigs.exitLoginWindow();
 
-	private void errorConnection(int code, Login loginWindow, String message) {
-		JOptionPane.showMessageDialog(loginWindow, code + " - " + message + ". Quittez et réessayez.", "Information",
-				JOptionPane.INFORMATION_MESSAGE);
+		// SendMessageProcess smp = new SendMessageProcess(window);
+		// smp.SendMessageProcessForChannelsList(UserConfigs.getLogin(),
+		// UserConfigs.getPass(), UserConfigs.getServer(), UserConfigs.getPort());
 
 	}
-	
 
 	// Switch for the different codes and call the method the app need to use. If
 	// the parent window is the login main window
-	public CodeSwitch(int code, String message, MainWindow mainWindow, String instruction) {
-		switch (code) {
-		case 200:
-			System.out.println(instruction);
-			if(instruction == "disconnect") {
-				disconnectWindow(mainWindow);
-			} else if(instruction == "list_channels") {
-				
-			}
-			
-			break;
-		case 312:
-			errorConnection(code, mainWindow, message);
-			break;
-		case 000:
-			errorConnection(code, mainWindow, message);
-			break;
 
-		default:
-			errorConnection(000, mainWindow, message);
-			break;
-		}
-	}
-
-	private void disconnectWindow(MainWindow mainWindow) {
-		JOptionPane.showMessageDialog(mainWindow, "Vous êtes déconnecté.", "Information",
+	private void disconnectWindow() {
+		JOptionPane.showMessageDialog(UserConfigs.getMainWindow(), "Vous êtes déconnecté.", "Information",
 				JOptionPane.INFORMATION_MESSAGE);
 		if (!UserConfigs.getLogin().isEmpty()) {
 			UserConfigs.setLogin(null);
@@ -97,21 +74,19 @@ public class CodeSwitch {
 		if (!UserConfigs.getPass().isEmpty()) {
 			UserConfigs.setPass(null);
 		}
-		
+
 		UserConfigs.setConnectedToAChannel(false);
 		UserConfigs.setLogged(false);
 
 		Login windowLogin = new Login();
 		windowLogin.setVisible(true);
-		mainWindow.setVisible(false);
+		UserConfigs.getMainWindow().setVisible(false);
 
 	}
 	
-	private void errorConnection(int code, MainWindow mainWindow, String message) {
-		JOptionPane.showMessageDialog(mainWindow, code + " - " + message + ". Quittez et réessayez.", "Information",
+	private void errorConnection(int code, String message) {
+		JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), code + message, "Information",
 				JOptionPane.INFORMATION_MESSAGE);
-
 	}
-	
 
 }

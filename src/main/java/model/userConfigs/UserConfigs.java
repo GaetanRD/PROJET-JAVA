@@ -12,12 +12,18 @@ package model.userConfigs;
 
 import java.net.Socket;
 
+import view.Login;
+import view.MainWindow;
+
 public class UserConfigs {
 
 	private static String login;
 	private static String pass;
 	private static String server;
 	private static int port;
+	
+	private static Login loginWindow;
+	private static MainWindow mainWindow;
 
 	private static Socket clientSocket;
 	private static Thread t;
@@ -31,6 +37,10 @@ public class UserConfigs {
 		UserConfigs.setPass(pass);
 		UserConfigs.setLogged(false);
 		UserConfigs.setConnectedToAChannel(false);
+	}
+	
+	public static void exitLoginWindow() {
+		loginWindow.setVisible(false);
 	}
 
 	public static String getServer() {
@@ -95,6 +105,22 @@ public class UserConfigs {
 
 	public static void setT(Thread t) {
 		UserConfigs.t = t;
+	}
+
+	public static Login getLoginWindow() {
+		return loginWindow;
+	}
+
+	public static void setLoginWindow(Login loginWindow) {
+		UserConfigs.loginWindow = loginWindow;
+	}
+
+	public static MainWindow getMainWindow() {
+		return mainWindow;
+	}
+
+	public static void setMainWindow(MainWindow mainWindow) {
+		UserConfigs.mainWindow = mainWindow;
 	}
 
 }

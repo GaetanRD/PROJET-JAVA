@@ -17,6 +17,7 @@ import java.net.Socket;
 import org.apache.log4j.Logger;
 
 import controller.buttons.ConnectAction;
+import controller.threads.ThreadListener;
 import model.userConfigs.UserConfigs;
 import view.Login;
 import view.MainWindow;
@@ -24,17 +25,12 @@ import view.MainWindow;
 public class SendMessageProcess {
 
 	private static final Logger LOG = Logger.getLogger(ConnectAction.class.getName());
-	private Login windowLogin;
-	private MainWindow mainWindow;
-
 	public SendMessageProcess(Login windowLogin) {
-		this.windowLogin = windowLogin;
 		UserConfigs.getClientSocket();
 
 	}
 
 	public SendMessageProcess(MainWindow mainWindow) {
-		this.mainWindow = mainWindow;
 
 	}
 
@@ -47,12 +43,11 @@ public class SendMessageProcess {
 
 		try {
 			UserConfigs.setClientSocket(new Socket(server, port));
+			Thread t = new Thread(new ThreadListener());
+			t.start();
+			processClient(msg);
 		} catch (IOException e1) {
 			LOG.error("Error during socket init.", e1);
-		} finally {
-			processClient(msg);
-			new Thread(new ReceiveMessageProcess(this.windowLogin, "connect")).start();
-
 		}
 
 	}
@@ -60,10 +55,12 @@ public class SendMessageProcess {
 	public void SendMessageProcessForChannelsList(String login, String pass, String server, int port) {
 		String msg = "{\"login\":\"" + login + "\",\"password\":\"sha1:" + pass
 				+ "\",\"instruction\":\"list_channels\"}";
+		
 
 		processClient(msg);
-		new Thread(new ReceiveMessageProcess(this.mainWindow, "list_channels")).start();
-
+		
+		
+	
 	}
 
 	public void SendMessageProcessForDisconnection(String login, String pass, String server, int port) {
@@ -71,7 +68,8 @@ public class SendMessageProcess {
 				+ "\",\"instruction\":\"disconnect\"}";
 
 		processClient(msg);
-		new Thread(new ReceiveMessageProcess(this.mainWindow, "disconnect")).start();
+		
+		
 
 	}
 

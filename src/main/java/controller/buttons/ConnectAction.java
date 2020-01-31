@@ -38,10 +38,10 @@ public class ConnectAction extends AbstractAction {
 		} else {
 			SendMessageProcess smp = new SendMessageProcess(this.loginWindow);
 
-			/*smp.SendMessageProcessForConnection(this.loginWindow.getLoginField().getText(),
-					this.loginWindow.getPasswordField().getText(), "192.168.32.47", 4567);*/
 			smp.SendMessageProcessForConnection(this.loginWindow.getLoginField().getText(),
-							this.loginWindow.getPasswordField().getText(), "localhost", 4567);
+					this.loginWindow.getPasswordField().getText(), "192.168.32.47", 4567);
+////			smp.SendMessageProcessForConnection(this.loginWindow.getLoginField().getText(),
+//							this.loginWindow.getPasswordField().getText(), "localhost", 4567);
 
 		}
 
