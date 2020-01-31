@@ -22,20 +22,24 @@ public class CodeSwitch {
 	public CodeSwitch(int code, String message, Login loginWindow) {
 		switch (code) {
 		case 200:
-			connectWindow(loginWindow);
+			connectWindow(loginWindow, message);
 			break;
 
 		case 310:
-			errorAlreadyConnect(loginWindow);
+			errorConnection(code, loginWindow, message);
 			break;
-
+		case 311:
+			errorConnection(code, loginWindow, message);
+			break;
+		
 		default:
+			errorConnection(000, loginWindow, message);
 			break;
 		}
 	}
 
-	private static void connectWindow(Login loginWindow) {
-		JOptionPane.showMessageDialog(loginWindow, "Vous êtes connecté. Bienvenue " + UserConfigs.getLogin(),
+	private static void connectWindow(Login loginWindow, String message) {
+		JOptionPane.showMessageDialog(loginWindow, message + ". Bienvenue " + UserConfigs.getLogin(),
 				"Information", JOptionPane.INFORMATION_MESSAGE);
 		
 		UserConfigs.setLogged(true);
@@ -48,21 +52,32 @@ public class CodeSwitch {
 
 	}
 
-	private void errorAlreadyConnect(Login loginWindow) {
-		JOptionPane.showMessageDialog(loginWindow, "Vous êtes déjà connecté. Quittez et réessayez.", "Information",
+	private void errorConnection(int code, Login loginWindow, String message) {
+		JOptionPane.showMessageDialog(loginWindow, code + " - " + message + ". Quittez et réessayez.", "Information",
 				JOptionPane.INFORMATION_MESSAGE);
 
 	}
+	
+	private void error(Login loginWindow) {
+		JOptionPane.showMessageDialog(loginWindow, "xxx - Une erreur s'est produite", "Information", JOptionPane.INFORMATION_MESSAGE);
+	}
 
 	// Switch for the different codes and call the method the app need to use. If
-	// the parent wondow is the login main window
+	// the parent window is the login main window
 	public CodeSwitch(int code, String message, MainWindow mainWindow) {
 		switch (code) {
 		case 200:
 			disconnectWindow(mainWindow);
 			break;
+		case 312:
+			errorWasNotConnected(mainWindow);
+			break;
+		case 000:
+			errorUnknow(mainWindow);
+			break;
 
 		default:
+			error(mainWindow);
 			break;
 		}
 	}
@@ -85,6 +100,18 @@ public class CodeSwitch {
 		windowLogin.setVisible(true);
 		mainWindow.setVisible(false);
 
+	}
+	
+	private void errorWasNotConnected(MainWindow mainWindow) {
+		JOptionPane.showMessageDialog(mainWindow, "312 - Erreur de conn", "Information", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	private void errorUnknow(MainWindow mainWindow) {
+		JOptionPane.showMessageDialog(mainWindow, "000 - Une erreur inconnue est survenue", "Information", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	private void error(MainWindow mainWindow) {
+		JOptionPane.showMessageDialog(mainWindow, "xxx - Une erreur s'est produite", "Information", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }
