@@ -25,8 +25,20 @@ public class SendMessageProcess {
 	private static final Logger LOG = Logger.getLogger(ConnectAction.class.getName());
 
 	public SendMessageProcess() {
-		String msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
-				+ "\",\"instruction\":" + UserConfigs.getInstruction() + "}";
+		
+		String msg = null;
+		
+		if (UserConfigs.getInstruction() == "subscribe_channel") {
+			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
+					+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()
+					+ "\",\"instruction\":\"subscribe_channel\",\"target_channel\":\"" + UserConfigs.getNewChannel() + "\"}";
+		} else if (UserConfigs.getInstruction() == "list_channel_members") {
+			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass() 
+			+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel() + "\",\"instruction\":\"list_channel_members\"}";
+		} else {
+			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
+					+ "\",\"instruction\":" + UserConfigs.getInstruction() + "}";
+		}
 
 		if (!UserConfigs.isLogged()) {
 			try {

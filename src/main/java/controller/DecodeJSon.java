@@ -26,10 +26,11 @@ public class DecodeJSon {
 			JSONObject obj = new JSONObject(message);
 			aObj.add(obj.getInt("code"));
 
-			if (UserConfigs.getInstruction() == "list_channels" && obj.getInt("code") == 120) {
+			if ((UserConfigs.getInstruction() == "list_channels" && obj.getInt("code") == 120)
+					|| (UserConfigs.getInstruction() == "list_channel_members" && obj.getInt("code") == 110)) {
 				JSONArray jAObj = new JSONArray();
 				jAObj = obj.optJSONArray("all_members");
-
+				System.out.println(jAObj.length());
 				for (int i = 0; i < jAObj.length(); i++) {
 					aObj.add(jAObj.getString(i));
 				}

@@ -108,8 +108,9 @@ public class MainWindow extends JFrame {
 		sPaneTextAreaChannels.setLocation(labelChannels.getX(), labelChannels.getY() + labelChannels.getHeight() + 5);
 		sPaneTextAreaChannels.setSize(labelChannels.getWidth(), this.getHeight() - 45 - labelMembers.getHeight()
 				- textAreaMembers.getHeight() - labelChannels.getHeight() - buttonHeight * 3);
-		sPaneTextAreaChannels.setEnabled(false);
+		
 		textAreaChannels.setEditable(false);
+		textAreaChannels.setOpaque(false);
 		panel.add(sPaneTextAreaChannels, null);
 	}
 

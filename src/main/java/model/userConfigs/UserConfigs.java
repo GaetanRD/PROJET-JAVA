@@ -11,8 +11,6 @@
 package model.userConfigs;
 
 import java.net.Socket;
-import java.util.List;
-
 import view.Login;
 import view.MainWindow;
 
@@ -29,6 +27,9 @@ public class UserConfigs {
 
 	private static Socket clientSocket;
 	private static Thread t;
+	
+	private static String currentChannel;
+	private static String newChannel;
 
 	private static boolean logged; // May to disable or enable objects if the user is connected to the app or not
 	private static boolean connectedToAChannel; // May to disable or enable objects if the user is connected to a
@@ -132,5 +133,21 @@ public class UserConfigs {
 
 	public static void setInstruction(String instruction) {
 		UserConfigs.instruction = instruction;
+	}
+
+	public static String getCurrentChannel() {
+		return currentChannel;
+	}
+
+	public static void setCurrentChannel(String currentChannel) {
+		UserConfigs.currentChannel = currentChannel;
+	}
+
+	public static String getNewChannel() {
+		return newChannel;
+	}
+
+	public static void setNewChannel(String newChannel) {
+		UserConfigs.newChannel = newChannel;
 	}
 }

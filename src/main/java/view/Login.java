@@ -74,4 +74,12 @@ public class Login extends JFrame {
 		return passwordField;
 	}
 
+	public void setLoginField(JTextField loginField) {
+		this.loginField = loginField;
+	}
+
+	public void setPasswordField(JTextField passwordField) {
+		this.passwordField = passwordField;
+	}
+
 }
