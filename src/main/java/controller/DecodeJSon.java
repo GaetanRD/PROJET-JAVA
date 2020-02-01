@@ -10,19 +10,38 @@ package controller;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import model.userConfigs.UserConfigs;
 
 public class DecodeJSon {
 
-	private JSONObject obj;
 	private ArrayList<Object> aObj;
 
 	public DecodeJSon(String message) {
-		obj = new JSONObject(message);
-		aObj = new ArrayList<Object>();
+		try {
+			aObj = new ArrayList<>();
+			JSONObject obj = new JSONObject(message);
+			aObj.add(obj.getInt("code"));
 
-		aObj.add(obj.getInt("code"));
-		aObj.add(obj.getString("message"));
+			if (UserConfigs.getInstruction() == "list_channels" && obj.getInt("code") == 120) {
+				JSONArray jAObj = new JSONArray();
+				jAObj = obj.optJSONArray("all_members");
+
+				for (int i = 0; i < jAObj.length(); i++) {
+					aObj.add(jAObj.getString(i));
+				}
+
+			} else {
+				aObj.add(obj.getString("message"));
+			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public ArrayList<Object> getaObj() {

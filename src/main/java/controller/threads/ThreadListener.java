@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
 import org.apache.log4j.Logger;
 
 import controller.DecodeJSon;
@@ -24,22 +25,32 @@ public class ThreadListener implements Runnable {
 		InputStreamReader isr = null;
 		BufferedReader br = null;
 
+		LinkedList<Object> lList = new LinkedList<>();
+
 		try {
 			in = UserConfigs.getClientSocket().getInputStream();
 			isr = new InputStreamReader(in, "UTF-8");
 			br = new BufferedReader(isr);
 
 			while (true) {
-				// Read the first line of the network stream
-				
 
-					String line = br.readLine();
-					if (line != null) {
+				lList.clear();
+
+				// Read the first line of the network stream
+				String line = br.readLine();
+
+				if (line != null) {
 					final String ip = UserConfigs.getClientSocket().getInetAddress().getHostAddress();
 					LOG.info(ip + " : " + line);
 					DecodeJSon dJson = new DecodeJSon(line);
-					System.out.println("-------" + dJson.getaObj().get(0));
-					new CodeSwitch((Integer) dJson.getaObj().get(0), (String) dJson.getaObj().get(1));
+					System.out.println("-------" + dJson.getaObj());
+
+					for (int i = 0; i < dJson.getaObj().size(); i++) {
+						lList.add(dJson.getaObj().get(i));
+					}
+
+					new CodeSwitch(lList);
+
 				}
 			}
 		} catch (IOException e) {

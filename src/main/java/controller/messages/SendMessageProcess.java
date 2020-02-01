@@ -25,10 +25,6 @@ public class SendMessageProcess {
 	private static final Logger LOG = Logger.getLogger(ConnectAction.class.getName());
 
 	public SendMessageProcess() {
-
-	}
-
-	public void SendMessageProcess() {
 		String msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
 				+ "\",\"instruction\":" + UserConfigs.getInstruction() + "}";
 
@@ -44,7 +40,6 @@ public class SendMessageProcess {
 		} else {
 			processClient(msg);
 		}
-
 	}
 
 	private void processClient(String msg) {
@@ -52,7 +47,7 @@ public class SendMessageProcess {
 		OutputStreamWriter osw = null;
 		PrintWriter pw = null;
 
-		LOG.info("[CLIENT] - Message : " + msg);
+		LOG.info("[CLIENT] - Message d'instruction : " + UserConfigs.getInstruction() + " -> " + msg);
 		try {
 			// Open the output stream of the client socket.
 			out = UserConfigs.getClientSocket().getOutputStream();

@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 
 import controller.messages.SendMessageProcess;
 import model.userConfigs.UserConfigs;
-import view.Login;
 
 public class ConnectAction extends AbstractAction {
 
@@ -40,11 +39,7 @@ public class ConnectAction extends AbstractAction {
 			UserConfigs.setServer("localhost");
 			UserConfigs.setPort(4567);
 			UserConfigs.setInstruction("connect");
-			SendMessageProcess smp = new SendMessageProcess();
-//
-//			smp.SendMessageProcessForConnection(this.loginWindow.getLoginField().getText(),
-//				this.loginWindow.getPasswordField().getText(), "192.168.32.47", 4567);
-			smp.SendMessageProcess();
+			new SendMessageProcess();
 
 		}
 

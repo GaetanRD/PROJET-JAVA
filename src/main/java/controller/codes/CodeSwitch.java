@@ -9,8 +9,11 @@
 
 package controller.codes;
 
+import java.util.LinkedList;
+
 import javax.swing.JOptionPane;
 
+import controller.messages.SendMessageProcess;
 import model.userConfigs.UserConfigs;
 import view.Login;
 import view.MainWindow;
@@ -19,32 +22,36 @@ public class CodeSwitch {
 
 	// Switch for the different codes and call the method the app need to use. If
 	// the parent wondow is the login window
-	public CodeSwitch(int code, String message) {
-		System.out.println(code);
-		
-		switch (code) {
+	public CodeSwitch(LinkedList<Object> lList) {
+		System.out.println("string" + lList);
+
+		switch ((Integer)lList.get(0)) {
 		case 200:
-			if(!UserConfigs.isLogged()) {
-				connectWindow(message);
-			} else {
+			if (UserConfigs.getInstruction() == "connect") {
+				connectWindow();
+			} else if (UserConfigs.getInstruction() == "disconnect") {
 				disconnectWindow();
-			} 
+			}
 			break;
 		case 310:
-			errorConnection(code, message);
-						break;
+			errorConnection(lList);
+			break;
+			
+		case 120:
+			createChannelsList(lList);
+			break;
 //		case 311:
 //			errorConnection(code, loginWindow, message);
 //			break;
 //		
 		default:
-		//	errorConnection(000, loginWindow, message);
+			// errorConnection(000, loginWindow, message);
 			break;
 		}
 	}
 
-	private static void connectWindow(String message) {
-		JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), message + ". Bienvenue " + UserConfigs.getLogin(),
+	private static void connectWindow() {
+		JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(),". Bienvenue " + UserConfigs.getLogin(),
 				"Information", JOptionPane.INFORMATION_MESSAGE);
 
 		UserConfigs.setLogged(true);
@@ -54,6 +61,8 @@ public class CodeSwitch {
 		window.setVisible(true);
 		UserConfigs.setMainWindow(window);
 		UserConfigs.exitLoginWindow();
+		UserConfigs.setInstruction("list_channels");
+		new SendMessageProcess();
 
 	}
 
@@ -80,8 +89,24 @@ public class CodeSwitch {
 
 	}
 	
-	private void errorConnection(int code, String message) {
-		JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), code + message, "Information",
+	
+	private void createChannelsList(LinkedList<Object> lList) {
+		
+		for (int i= 1 ; i < lList.size() ; i++) {
+			UserConfigs.getMainWindow().getTextAreaChannels().setText(lList.get(i).toString());
+			
+		}
+		
+		System.out.println(UserConfigs.getMainWindow().getTextAreaChannels().getLineCount());
+		
+		
+		
+		
+		
+	}
+
+	private void errorConnection(LinkedList<Object> lList) {
+		JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Code error : " + lList, "Information",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 

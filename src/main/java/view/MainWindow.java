@@ -14,12 +14,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import controller.buttons.DisconnectAction;
-import controller.buttons.MenuSetLogin;
-import controller.messages.SendMessageProcess;
 import model.userConfigs.UserConfigs;
 
 public class MainWindow extends JFrame {
@@ -33,7 +32,9 @@ public class MainWindow extends JFrame {
 	private JLabel labelChannels = new JLabel("Autres canaux");
 
 	private JTextArea textAreaMembers = new JTextArea();
+
 	private JTextArea textAreaChannels = new JTextArea();
+	JScrollPane sPaneTextAreaChannels = new JScrollPane(textAreaChannels);
 
 	private JTextField textfield = new JTextField();
 
@@ -96,30 +97,32 @@ public class MainWindow extends JFrame {
 	}
 
 	private void ListOfChannelArea() {
+		JScrollPane sPaneTextAreaChannels = new JScrollPane(textAreaChannels);
+
 		labelChannels.setLocation(mainLabel.getWidth() + 10, textAreaMembers.getY() + textAreaMembers.getHeight() + 5);
 		labelChannels.setSize(this.getWidth() - mainLabel.getWidth() - 40, 10);
 		labelChannels.setOpaque(true);
 		labelChannels.setBackground(Color.WHITE);
 		panel.add(labelChannels, null);
 
-		textAreaChannels.setLocation(labelChannels.getX(), labelChannels.getY() + labelChannels.getHeight() + 5);
-		textAreaChannels.setSize(labelChannels.getWidth(), this.getHeight() - 45 - labelMembers.getHeight()
+		sPaneTextAreaChannels.setLocation(labelChannels.getX(), labelChannels.getY() + labelChannels.getHeight() + 5);
+		sPaneTextAreaChannels.setSize(labelChannels.getWidth(), this.getHeight() - 45 - labelMembers.getHeight()
 				- textAreaMembers.getHeight() - labelChannels.getHeight() - buttonHeight * 3);
-		textAreaChannels.setEnabled(false);
-		panel.add(textAreaChannels, null);
+		sPaneTextAreaChannels.setEnabled(false);
+		textAreaChannels.setEditable(false);
+		panel.add(sPaneTextAreaChannels, null);
 	}
 
 	private void SendButton() {
-		
-		if(UserConfigs.isLogged() && UserConfigs.isConnectedToAChannel()) {
+
+		if (UserConfigs.isLogged() && UserConfigs.isConnectedToAChannel()) {
 			sendButton.setEnabled(true);
 		} else {
 			sendButton.setEnabled(false);
 		}
-		
+
 		sendButton.setLocation(
-				((this.getWidth() - mainLabel.getWidth() - 20) / 2) + mainLabel.getWidth() - buttonWidth / 4,
-				textAreaChannels.getY() + textAreaChannels.getHeight() + 10);
+				((this.getWidth() - mainLabel.getWidth() - 20) / 2) + mainLabel.getWidth() - buttonWidth / 4, 525);
 		sendButton.setSize(buttonWidth / 2, 20);
 		panel.add(sendButton, null);
 	}
@@ -129,20 +132,20 @@ public class MainWindow extends JFrame {
 		mainLabel.setSize(550, this.getHeight() - 100);
 		mainLabel.setEnabled(false);
 		panel.add(mainLabel, null);
-		
+
 		buttonDisplayLogs.setSize(buttonWidth, buttonHeight);
 		buttonDisplayLogs.setLocation(mainLabel.getWidth() / 2 - buttonWidth / 2,
 				buttonSetPass.getY() + buttonSetPass.getHeight() + 20);
-		
-		if(UserConfigs.isLogged() && !UserConfigs.isConnectedToAChannel()) {
+
+		if (UserConfigs.isLogged() && !UserConfigs.isConnectedToAChannel()) {
 			panel.add(buttonDisplayLogs, null);
 		}
 
 	}
 
 	private void TextField() {
-		
-		if(UserConfigs.isLogged() && UserConfigs.isConnectedToAChannel()) {
+
+		if (UserConfigs.isLogged() && UserConfigs.isConnectedToAChannel()) {
 			textfield.setEnabled(true);
 		} else {
 			textfield.setEnabled(false);
@@ -153,12 +156,20 @@ public class MainWindow extends JFrame {
 		textfield.setSize(sendButton.getX() - 20, 20);
 		panel.add(textfield, null);
 	}
-	
+
 	public JTextArea getTextAreaChannels() {
 		return textAreaChannels;
 	}
 
 	public void setTextAreaChannels(JTextArea textAreaChannels) {
 		this.textAreaChannels = textAreaChannels;
+	}
+
+	public JScrollPane getSPaneTextAreaChannels() {
+		return sPaneTextAreaChannels;
+	}
+
+	public void setSPaneTextAreaChannels(JScrollPane sPaneTextAreaChannels) {
+		this.sPaneTextAreaChannels = sPaneTextAreaChannels;
 	}
 }

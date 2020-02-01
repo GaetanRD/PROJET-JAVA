@@ -11,6 +11,7 @@
 package model.userConfigs;
 
 import java.net.Socket;
+import java.util.List;
 
 import view.Login;
 import view.MainWindow;
@@ -22,13 +23,13 @@ public class UserConfigs {
 	private static String server;
 	private static String instruction;
 	private static int port;
-	
+
 	private static Login loginWindow;
 	private static MainWindow mainWindow;
 
 	private static Socket clientSocket;
 	private static Thread t;
-	
+
 	private static boolean logged; // May to disable or enable objects if the user is connected to the app or not
 	private static boolean connectedToAChannel; // May to disable or enable objects if the user is connected to a
 												// channel or not
@@ -38,8 +39,9 @@ public class UserConfigs {
 		UserConfigs.setPass(pass);
 		UserConfigs.setLogged(false);
 		UserConfigs.setConnectedToAChannel(false);
+
 	}
-	
+
 	public static void exitLoginWindow() {
 		loginWindow.setVisible(false);
 	}
@@ -131,5 +133,4 @@ public class UserConfigs {
 	public static void setInstruction(String instruction) {
 		UserConfigs.instruction = instruction;
 	}
-
 }

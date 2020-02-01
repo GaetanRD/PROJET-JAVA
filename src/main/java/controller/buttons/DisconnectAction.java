@@ -25,11 +25,9 @@ public class DisconnectAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("-------- Bouton de déconnexion cliqué -----------");
-		
-		UserConfigs.setInstruction("disconnect");
-		SendMessageProcess smp = new SendMessageProcess();
 
-		smp.SendMessageProcess();
+		UserConfigs.setInstruction("disconnect");
+		new SendMessageProcess();
 
 	}
 
