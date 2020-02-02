@@ -14,8 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import model.userConfigs.UserConfigs;
-
 public class DecodeJSon {
 
 	private ArrayList<Object> aObj;
@@ -26,15 +24,24 @@ public class DecodeJSon {
 			JSONObject obj = new JSONObject(message);
 			aObj.add(obj.getInt("code"));
 
-			if ((UserConfigs.getInstruction() == "list_channels" && obj.getInt("code") == 120)
-					|| (UserConfigs.getInstruction() == "list_channel_members" && obj.getInt("code") == 110)) {
+			// 120 -> all_channel, 110 -> all_members
+			if (obj.getInt("code") == 120 || obj.getInt("code") == 110) {
 				JSONArray jAObj = new JSONArray();
-				jAObj = obj.optJSONArray("all_members");
+
+				if (obj.getInt("code") == 120) {
+					jAObj = obj.optJSONArray("all_channel");
+				} else {
+					jAObj = obj.optJSONArray("all_members");
+				}
+
 				System.out.println(jAObj.length());
 				for (int i = 0; i < jAObj.length(); i++) {
 					aObj.add(jAObj.getString(i));
 				}
 
+			} else if (obj.getInt("code") == 130) {
+				aObj.add(obj.getString("message"));
+				aObj.add(obj.getString("user"));
 			} else {
 				aObj.add(obj.getString("message"));
 			}

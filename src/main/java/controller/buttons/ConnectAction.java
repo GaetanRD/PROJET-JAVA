@@ -27,7 +27,7 @@ public class ConnectAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("-------- Bouton de connexion cliqué -----------");
-
+				
 		if (UserConfigs.getLoginWindow().getLoginField().getText().isEmpty()
 				|| UserConfigs.getLoginWindow().getPasswordField().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Erreur : des champs sont vides", "Information",
@@ -39,6 +39,7 @@ public class ConnectAction extends AbstractAction {
 			UserConfigs.setServer("localhost");
 			UserConfigs.setPort(4567);
 			UserConfigs.setInstruction("connect");
+			UserConfigs.setStopTheThread(false);
 			new SendMessageProcess();
 
 		}

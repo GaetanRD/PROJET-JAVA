@@ -9,13 +9,17 @@
 
 package controller.codes;
 
+import java.awt.Color;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 import controller.messages.SendMessageProcess;
+import controller.threads.ThreadListenerMessage;
 import model.userConfigs.UserConfigs;
 import view.Login;
 import view.MainWindow;
@@ -27,13 +31,18 @@ public class CodeSwitch {
 	public CodeSwitch(LinkedList<Object> lList) {
 
 		switch ((Integer) lList.get(0)) {
+		case 130:
+			receiveMessage(lList);
+			System.out.println("--------- Demande la liste des membres d'un channel ---------");
+			UserConfigs.setInstruction("list_channel_members");
+			new SendMessageProcess();
 		case 200:
 			if (UserConfigs.getInstruction() == "connect") {
 				connectWindow();
 			} else if (UserConfigs.getInstruction() == "disconnect") {
 				disconnectWindow();
 			} else if (UserConfigs.getInstruction() == "subscribe_channel") {
-				System.out.println("--------- Demande la liste des memebres d'un channel ---------");
+				System.out.println("--------- Demande la liste des membres d'un channel ---------");
 				UserConfigs.setInstruction("list_channel_members");
 				new SendMessageProcess();
 			}
@@ -52,6 +61,12 @@ public class CodeSwitch {
 		case 110:
 			createMembersList(lList);
 			break;
+		case 0:
+		case 1:
+			if (UserConfigs.getInstruction() == "send_message") {
+				UserConfigs.getMainWindow().getTp().setText(UserConfigs.getMainWindow().getTp().getText()
+						+ "[Error] -> Votre message n'a pas pu être envoyé au serveur\n");
+			}
 //		case 311:
 //			errorConnection(code, loginWindow, message);
 //			break;
@@ -62,6 +77,13 @@ public class CodeSwitch {
 		}
 	}
 
+	private void receiveMessage(LinkedList<Object> lList) {
+		UserConfigs.getMainWindow().getTp().setForeground(Color.black);
+		UserConfigs.getMainWindow().getTp().setText(UserConfigs.getMainWindow().getTp().getText() + "[\""
+				+ lList.get(2).toString() + "\"] --- " + lList.get(1).toString() + "\n");
+
+	}
+
 	private static void connectWindow() {
 		JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), ". Bienvenue " + UserConfigs.getLogin(),
 				"Information", JOptionPane.INFORMATION_MESSAGE);
@@ -70,6 +92,8 @@ public class CodeSwitch {
 		UserConfigs.setConnectedToAChannel(true);
 		UserConfigs.setCurrentChannel("default");
 		UserConfigs.setNewChannel("default");
+		
+		UserConfigs.setStopTheThreadMessage(false);
 
 		MainWindow window = new MainWindow();
 		window.setVisible(true);
@@ -79,6 +103,7 @@ public class CodeSwitch {
 		System.out.println("--------- Demande de la liste de channels ---------");
 		UserConfigs.setInstruction("list_channels");
 		new SendMessageProcess();
+		
 
 	}
 
@@ -96,12 +121,26 @@ public class CodeSwitch {
 			UserConfigs.setPass(null);
 		}
 
-		UserConfigs.setConnectedToAChannel(false);
+		UserConfigs.getLoginWindow().getPasswordField().setText(null);
+		UserConfigs.getLoginWindow().getLoginField().setText(null);
+		UserConfigs.getMainWindow().getTextAreaMembers().setText(null);
+
+		UserConfigs.setStopTheThread(true);
+		UserConfigs.setStopTheThreadMessage(true);
 		UserConfigs.setLogged(false);
+		UserConfigs.setConnectedToAChannel(false);
+
+		try {
+			UserConfigs.getClientSocket().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+
+		}
 
 		Login windowLogin = new Login();
 		windowLogin.setVisible(true);
 		UserConfigs.getMainWindow().setVisible(false);
+		UserConfigs.setLoginWindow(windowLogin);
 
 	}
 
@@ -113,22 +152,39 @@ public class CodeSwitch {
 			listModel.addElement(lList.get(i).toString());
 		}
 		UserConfigs.getMainWindow().getChannelsList().setModel(listModel);
-		
+
 	}
 
 	private void createMembersList(LinkedList<Object> lList) {
-		LinkedList<String> membersList = new LinkedList<>();
+
+		UserConfigs.getMembersList().removeAll(UserConfigs.getMembersList());
+
+		System.out.println("Vider " + UserConfigs.getMembersList());
 
 		for (int i = 1; i < lList.size(); i++) {
-			membersList.add(lList.get(i).toString());
+
+			UserConfigs.getMembersList().add(lList.get(i).toString());
+
 		}
 
-		Collections.sort(membersList);
+		Collections.sort(UserConfigs.getMembersList());
 
-		for (int i = 0; i < membersList.size(); i++) {
-			UserConfigs.getMainWindow().getTextAreaMembers()
-					.setText(UserConfigs.getMainWindow().getTextAreaMembers().getText() + membersList.get(i) + "\n");
+		UserConfigs.getMainWindow().getTextAreaMembers().setText(UserConfigs.getMembersList().get(0) + "\n");
+
+		if (UserConfigs.getMembersList().size() > 2) {
+			for (int i = 1; i < UserConfigs.getMembersList().size() - 1; i++) {
+				UserConfigs.getMainWindow().getTextAreaMembers()
+						.setText(UserConfigs.getMainWindow().getTextAreaMembers().getText()
+								+ UserConfigs.getMembersList().get(i) + "\n");
+			}
 		}
+		
+		if (UserConfigs.getMembersList().size() > 1) {
+			UserConfigs.getMainWindow().getTextAreaMembers().setText(
+					UserConfigs.getMainWindow().getTextAreaMembers().getText() + UserConfigs.getMembersList().getLast());
+
+		}
+		
 
 	}
 

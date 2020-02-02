@@ -12,13 +12,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import controller.messages.SendMessageProcess;
 import model.userConfigs.UserConfigs;
-import view.MainWindow;
 
 public class DisconnectAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 
-	public DisconnectAction(MainWindow window, String text) {
+	public DisconnectAction(String text) {
 		super(text);
 	}
 
@@ -26,9 +25,12 @@ public class DisconnectAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("-------- Bouton de déconnexion cliqué -----------");
 
-		UserConfigs.setInstruction("disconnect");
-		
+		UserConfigs.setInstruction("disconnect");		
 		new SendMessageProcess();
+		
+		
+		
+		
 		
 		
 

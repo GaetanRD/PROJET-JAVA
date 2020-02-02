@@ -32,7 +32,7 @@ public class ThreadListener implements Runnable {
 			isr = new InputStreamReader(in, "UTF-8");
 			br = new BufferedReader(isr);
 
-			while (true) {
+			while (!UserConfigs.isStopTheThread()) {
 
 				lList.clear();
 
@@ -56,6 +56,17 @@ public class ThreadListener implements Runnable {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOG.error("Error during reading message from the server.", e);
+		} finally {
+			if (br != null) {
+				br = null;
+			}
+			if (isr != null) {
+				isr = null;
+			}
+			if (in != null) {
+				in = null;
+			}
+						
 		}
 	}
 }

@@ -11,7 +11,6 @@ package view;
 
 import java.awt.Color;
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,8 +23,10 @@ import javax.swing.JTextPane;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+import controller.KeySendMessage;
 import controller.buttons.DisconnectAction;
 import controller.buttons.SelectChannel;
+import controller.buttons.SendMessage;
 import model.userConfigs.UserConfigs;
 
 public class MainWindow extends JFrame {
@@ -35,20 +36,23 @@ public class MainWindow extends JFrame {
 	private JPanel panel = new JPanel();
 
 	private JTextPane tp = new JTextPane();
-	private SimpleAttributeSet set = new SimpleAttributeSet();
+	private SimpleAttributeSet setWelcome;
+	private SimpleAttributeSet setUserMessage;
+	private SimpleAttributeSet setErrorMessage;
 
 	private JLabel labelMembers = new JLabel("Membres sur ce canal");
 	private JLabel labelChannels = new JLabel("Autres canaux");
+
 	private JList<String> channelsList;
 	private JTextArea textAreaMembers = new JTextArea();
+
 	JScrollPane sPaneTextAreaMembers = new JScrollPane(textAreaMembers);
-//	private JTextArea textAreaChannels = new JTextArea();
 	JScrollPane sPaneTextAreaChannels = new JScrollPane(channelsList);
 
 	private JTextField textfield = new JTextField();
 
 	private JButton buttonDisplayLogs = new JButton("Accèder aux logs");
-	private JButton disconnectButton = new JButton(new DisconnectAction(this, "Se déconnecter"));
+	private JButton disconnectButton = new JButton(new DisconnectAction("Se déconnecter"));
 	private JButton sendButton = new JButton("Envoyer");
 	private JButton createChannel = new JButton("Créer un channel");
 	private JButton joinChannel = new JButton("Rejoindre");
@@ -63,7 +67,7 @@ public class MainWindow extends JFrame {
 	}
 
 	private void build() {
-		setTitle("Chat - IRC Project");
+		setTitle("T'Chat - IRC Client (v0.1 alpha)");
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -115,26 +119,47 @@ public class MainWindow extends JFrame {
 		tp.setEditable(false);
 		tp.setBorder(BorderFactory.createLineBorder(Color.black));
 		tp.setText("Bienvenue sur le canal " + UserConfigs.getCurrentChannel());
-
-		StyleConstants.setBold(set, true);
-
-		// Set the attributes before adding text
-		tp.setCharacterAttributes(set, true);
-		tp.setText("java2s.com ");
-
-		set = new SimpleAttributeSet();
-		StyleConstants.setItalic(set, true);
-		StyleConstants.setForeground(set, Color.blue);
-
-		tp.setCharacterAttributes(set, true);
-		tp.setText("Bienvenue sur le canal " + UserConfigs.getCurrentChannel());
-
+		
+		setWelcome = new SimpleAttributeSet();
+		StyleConstants.setForeground(setWelcome, Color.blue);
+		tp.setCharacterAttributes(setWelcome, true);
+		tp.setText("Bienvenue sur le canal " + UserConfigs.getCurrentChannel() + "\n");
+		
+		setUserMessage = new SimpleAttributeSet();
+		StyleConstants.setForeground(setUserMessage, Color.black);
+		
 		panel.add(tp, null);
 
 	}
 
+	public SimpleAttributeSet getSetWelcome() {
+		return setWelcome;
+	}
+
+	public void setSetWelcome(SimpleAttributeSet setWelcome) {
+		this.setWelcome = setWelcome;
+	}
+
+	public SimpleAttributeSet getSetUserMessage() {
+		return setUserMessage;
+	}
+
+	public void setSetUserMessage(SimpleAttributeSet setUserMessage) {
+		this.setUserMessage = setUserMessage;
+	}
+
+	public SimpleAttributeSet getSetErrorMessage() {
+		return setErrorMessage;
+	}
+
+	public void setSetErrorMessage(SimpleAttributeSet setErrorMessage) {
+		this.setErrorMessage = setErrorMessage;
+	}
+
 	private void ListOfMemberArea() {
+		
 		JScrollPane sPaneTextAreaMembers = new JScrollPane(textAreaMembers);
+		
 
 		labelMembers.setLocation(tp.getX() + tp.getWidth() + 5, tp.getY() - 10);
 		labelMembers.setSize(this.getWidth() - tp.getWidth() - tp.getX(), 10);
@@ -180,14 +205,25 @@ public class MainWindow extends JFrame {
 		textfield.setLocation(10, tp.getY() + tp.getHeight() + 20);
 		textfield.setSize(tp.getWidth(), 20);
 
+		textfield.addKeyListener(new KeySendMessage());
+		System.out.println(UserConfigs.getMessage());
+
 		panel.add(textfield, null);
+	}
+
+	public JTextPane getTp() {
+		return tp;
+	}
+
+	public void setTp(JTextPane tp) {
+		this.tp = tp;
 	}
 
 	private void ChangeChannelButton() {
 		joinChannel.setLocation(labelChannels.getX() + 5, 510);
 		joinChannel.setSize(buttonWidth / 2, 20);
-		
-		joinChannel.addActionListener(new SelectChannel(channelsList.getSelectedValue(), "Rejoindre"));
+
+		joinChannel.addActionListener(new SelectChannel(channelsList.getSelectedValue()));
 
 		panel.add(joinChannel, null);
 	}
@@ -202,6 +238,7 @@ public class MainWindow extends JFrame {
 
 		sendButton.setLocation(labelChannels.getX(), textfield.getY());
 		sendButton.setSize(buttonWidth / 2, 20);
+		sendButton.addActionListener(new SendMessage(textfield.getText()));
 
 		panel.add(sendButton, null);
 	}
@@ -238,12 +275,13 @@ public class MainWindow extends JFrame {
 		this.sPaneTextAreaMembers = sPaneTextAreaMembers;
 	}
 
-	public SimpleAttributeSet getSet() {
-		return set;
+	
+	public JTextField getTextfield() {
+		return textfield;
 	}
 
-	public void setSet(SimpleAttributeSet set) {
-		this.set = set;
+	public void setTextfield(JTextField textfield) {
+		this.textfield = textfield;
 	}
 
 }

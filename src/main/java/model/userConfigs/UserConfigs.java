@@ -11,6 +11,10 @@
 package model.userConfigs;
 
 import java.net.Socket;
+import java.util.LinkedList;
+
+import controller.threads.ThreadListener;
+import controller.threads.ThreadListenerMessage;
 import view.Login;
 import view.MainWindow;
 
@@ -22,12 +26,20 @@ public class UserConfigs {
 	private static String instruction;
 	private static int port;
 
+	private static boolean stopTheThread;
+	private static boolean stopTheThreadMessage;
+
+	private static String message;
+
 	private static Login loginWindow;
 	private static MainWindow mainWindow;
 
 	private static Socket clientSocket;
-	private static Thread t;
-	
+	private static Thread t = new Thread(new ThreadListener());
+	private static Thread t2 = new Thread(new ThreadListenerMessage());
+
+	private static LinkedList<String> membersList = new LinkedList<>();
+
 	private static String currentChannel;
 	private static String newChannel;
 
@@ -40,6 +52,8 @@ public class UserConfigs {
 		UserConfigs.setPass(pass);
 		UserConfigs.setLogged(false);
 		UserConfigs.setConnectedToAChannel(false);
+		UserConfigs.setStopTheThread(false);
+		UserConfigs.setStopTheThreadMessage(false);
 
 	}
 
@@ -149,5 +163,45 @@ public class UserConfigs {
 
 	public static void setNewChannel(String newChannel) {
 		UserConfigs.newChannel = newChannel;
+	}
+
+	public static String getMessage() {
+		return message;
+	}
+
+	public static void setMessage(String message) {
+		UserConfigs.message = message;
+	}
+
+	public static boolean isStopTheThread() {
+		return stopTheThread;
+	}
+
+	public static void setStopTheThread(boolean b) {
+		UserConfigs.stopTheThread = b;
+	}
+
+	public static LinkedList<String> getMembersList() {
+		return membersList;
+	}
+
+	public static void setMembersList(LinkedList<String> membersList) {
+		UserConfigs.membersList = membersList;
+	}
+
+	public static boolean isStopTheThreadMessage() {
+		return stopTheThreadMessage;
+	}
+
+	public static void setStopTheThreadMessage(boolean stopTheThreadMessage) {
+		UserConfigs.stopTheThreadMessage = stopTheThreadMessage;
+	}
+
+	public static Thread getT2() {
+		return t2;
+	}
+
+	public static void setT2(Thread t2) {
+		UserConfigs.t2 = t2;
 	}
 }

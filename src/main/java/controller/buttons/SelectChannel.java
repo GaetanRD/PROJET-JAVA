@@ -19,11 +19,10 @@ import model.userConfigs.UserConfigs;
 public class SelectChannel extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
-	private String text;
 
-	public SelectChannel(String a, String text) {
+	public SelectChannel(String text) {
 		super(text);
-		this.text = a;
+
 	}
 
 	public void actionPerformed(ActionEvent e) {

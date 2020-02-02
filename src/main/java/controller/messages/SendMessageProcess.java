@@ -14,10 +14,14 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+
+import javax.swing.JOptionPane;
+
 import org.apache.log4j.Logger;
 
 import controller.buttons.ConnectAction;
 import controller.threads.ThreadListener;
+import controller.threads.ThreadListenerMessage;
 import model.userConfigs.UserConfigs;
 
 public class SendMessageProcess {
@@ -25,19 +29,30 @@ public class SendMessageProcess {
 	private static final Logger LOG = Logger.getLogger(ConnectAction.class.getName());
 
 	public SendMessageProcess() {
-		
+
 		String msg = null;
-		
-		
-		
+
 		if (UserConfigs.getInstruction() == "subscribe_channel") {
+
 			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
 					+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()
-					+ "\",\"instruction\":\"subscribe_channel\",\"target_channel\":\"" + UserConfigs.getNewChannel() + "\"}";
+					+ "\",\"instruction\":\"subscribe_channel\",\"target_channel\":\"" + UserConfigs.getNewChannel()
+					+ "\"}";
+
 		} else if (UserConfigs.getInstruction() == "list_channel_members") {
-			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass() 
-			+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel() + "\",\"instruction\":\"list_channel_members\"}";
+
+			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
+					+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()
+					+ "\",\"instruction\":\"list_channel_members\"}";
+
+		} else if (UserConfigs.getInstruction() == "send_message") {
+
+			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
+					+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()
+					+ "\",\"instruction\":\"send_message\",\"message\":" + UserConfigs.getMessage() + "}";
+
 		} else {
+
 			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
 					+ "\",\"instruction\":" + UserConfigs.getInstruction() + "}";
 		}
@@ -45,18 +60,25 @@ public class SendMessageProcess {
 		if (!UserConfigs.isLogged()) {
 			try {
 				UserConfigs.setClientSocket(new Socket(UserConfigs.getServer(), UserConfigs.getPort()));
-				Thread t = new Thread(new ThreadListener());
-				t.start();
+				UserConfigs.setT(new Thread(new ThreadListener()));
+				UserConfigs.getT().start();
+				UserConfigs.setT2(new Thread(new ThreadListenerMessage()));
+				UserConfigs.getT2().start();
+
 				processClient(msg);
 			} catch (IOException e1) {
 				LOG.error("Error during socket init.", e1);
+				JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Erreur : impossible de joindre le serveur", "Information",
+						JOptionPane.INFORMATION_MESSAGE);
+				
 			}
 		} else {
 			processClient(msg);
 		}
+
 	}
 
-	private void processClient(String msg) {
+	public void processClient(String msg) {
 		OutputStream out = null;
 		OutputStreamWriter osw = null;
 		PrintWriter pw = null;
@@ -74,6 +96,19 @@ public class SendMessageProcess {
 
 		} catch (IOException e) {
 			LOG.error("Error during socket outputstream.", e);
+		} finally {
+			if (UserConfigs.getClientSocket().isClosed()) {
+				if (pw != null) {
+					pw = null;
+				}
+				if (osw != null) {
+					osw = null;
+				}
+				if (out != null) {
+					out = null;
+				}
+
+			}
 		}
 	}
 

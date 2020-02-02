@@ -22,8 +22,8 @@ import javax.swing.JButton;
 public class Login extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField loginField;
-	private JTextField passwordField;
+	private JTextField loginField = new JTextField();
+	private JTextField passwordField = new JTextField();
 
 	public Login() {
 		super();
@@ -47,15 +47,11 @@ public class Login extends JFrame {
 		JLabel label = new JLabel("Veuillez vous connecter");
 		panel.add(label);
 
-		JTextField loginField = new JTextField();
 		loginField.setColumns(10);
 		panel.add(loginField);
-		this.loginField = loginField;
 
-		JTextField passwordField = new JTextField();
 		passwordField.setColumns(10);
 		panel.add(passwordField);
-		this.passwordField = passwordField;
 
 		JButton connectButton = new JButton(new ConnectAction("Connexion"));
 		panel.add(connectButton);
