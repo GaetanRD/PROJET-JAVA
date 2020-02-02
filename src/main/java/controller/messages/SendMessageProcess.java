@@ -28,6 +28,8 @@ public class SendMessageProcess {
 		
 		String msg = null;
 		
+		
+		
 		if (UserConfigs.getInstruction() == "subscribe_channel") {
 			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
 					+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()

@@ -9,14 +9,14 @@
 
 package controller.codes;
 
+import java.util.Collections;
 import java.util.LinkedList;
 
-import javax.swing.JButton;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 import controller.messages.SendMessageProcess;
 import model.userConfigs.UserConfigs;
-import view.ButtonListChannels;
 import view.Login;
 import view.MainWindow;
 
@@ -33,6 +33,7 @@ public class CodeSwitch {
 			} else if (UserConfigs.getInstruction() == "disconnect") {
 				disconnectWindow();
 			} else if (UserConfigs.getInstruction() == "subscribe_channel") {
+				System.out.println("--------- Demande la liste des memebres d'un channel ---------");
 				UserConfigs.setInstruction("list_channel_members");
 				new SendMessageProcess();
 			}
@@ -46,6 +47,10 @@ public class CodeSwitch {
 			System.out.println("--------- Demande d'inscription à un channel ---------");
 			UserConfigs.setInstruction("subscribe_channel");
 			new SendMessageProcess();
+			break;
+
+		case 110:
+			createMembersList(lList);
 			break;
 //		case 311:
 //			errorConnection(code, loginWindow, message);
@@ -62,7 +67,7 @@ public class CodeSwitch {
 				"Information", JOptionPane.INFORMATION_MESSAGE);
 
 		UserConfigs.setLogged(true);
-		UserConfigs.setConnectedToAChannel(false);
+		UserConfigs.setConnectedToAChannel(true);
 		UserConfigs.setCurrentChannel("default");
 		UserConfigs.setNewChannel("default");
 
@@ -101,15 +106,29 @@ public class CodeSwitch {
 	}
 
 	private void createChannelsList(LinkedList<Object> lList) {
+
+		DefaultListModel<String> listModel = new DefaultListModel<>();
+
 		for (int i = 1; i < lList.size(); i++) {
-			ButtonListChannels blc = new ButtonListChannels(i, lList.get(i).toString());
+			listModel.addElement(lList.get(i).toString());
+		}
+		UserConfigs.getMainWindow().getChannelsList().setModel(listModel);
+		
+	}
 
-			UserConfigs.getMainWindow().getTextAreaChannels().add(blc);
-			blc.updateUI();
+	private void createMembersList(LinkedList<Object> lList) {
+		LinkedList<String> membersList = new LinkedList<>();
 
+		for (int i = 1; i < lList.size(); i++) {
+			membersList.add(lList.get(i).toString());
 		}
 
-		System.out.println(UserConfigs.getMainWindow().getTextAreaChannels().getLineCount());
+		Collections.sort(membersList);
+
+		for (int i = 0; i < membersList.size(); i++) {
+			UserConfigs.getMainWindow().getTextAreaMembers()
+					.setText(UserConfigs.getMainWindow().getTextAreaMembers().getText() + membersList.get(i) + "\n");
+		}
 
 	}
 

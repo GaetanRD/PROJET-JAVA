@@ -10,15 +10,22 @@
 package view;
 
 import java.awt.Color;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
 import controller.buttons.DisconnectAction;
+import controller.buttons.SelectChannel;
 import model.userConfigs.UserConfigs;
 
 public class MainWindow extends JFrame {
@@ -27,21 +34,24 @@ public class MainWindow extends JFrame {
 
 	private JPanel panel = new JPanel();
 
-	private JLabel mainLabel = new JLabel();
+	private JTextPane tp = new JTextPane();
+	private SimpleAttributeSet set = new SimpleAttributeSet();
+
 	private JLabel labelMembers = new JLabel("Membres sur ce canal");
 	private JLabel labelChannels = new JLabel("Autres canaux");
-
+	private JList<String> channelsList;
 	private JTextArea textAreaMembers = new JTextArea();
-
-	private JTextArea textAreaChannels = new JTextArea();
-	JScrollPane sPaneTextAreaChannels = new JScrollPane(textAreaChannels);
+	JScrollPane sPaneTextAreaMembers = new JScrollPane(textAreaMembers);
+//	private JTextArea textAreaChannels = new JTextArea();
+	JScrollPane sPaneTextAreaChannels = new JScrollPane(channelsList);
 
 	private JTextField textfield = new JTextField();
 
-	private JButton buttonSetPass = new JButton("Modifier votre mot de passe");
 	private JButton buttonDisplayLogs = new JButton("Accèder aux logs");
 	private JButton disconnectButton = new JButton(new DisconnectAction(this, "Se déconnecter"));
 	private JButton sendButton = new JButton("Envoyer");
+	private JButton createChannel = new JButton("Créer un channel");
+	private JButton joinChannel = new JButton("Rejoindre");
 
 	private int buttonWidth = 300;
 	private int buttonHeight = 30;
@@ -65,82 +75,97 @@ public class MainWindow extends JFrame {
 	private JPanel buildContentPane() {
 		panel.setLayout(null);
 
+		LogButton();
+		NewChannelButton();
 		MainLabel();
 		DisconnectButton();
 		ListOfMemberArea();
 		ListOfChannelArea();
-		SendButton();
 		TextField();
+		ChangeChannelButton();
+		SendButton();
 
 		return panel;
 	}
 
+	private void LogButton() {
+		buttonDisplayLogs.setLocation(20, 10);
+		buttonDisplayLogs.setSize(540 / 3, 20);
+
+		panel.add(buttonDisplayLogs, null);
+	}
+
+	private void NewChannelButton() {
+		createChannel.setLocation(buttonDisplayLogs.getX() + buttonDisplayLogs.getWidth() + 20, 10);
+		createChannel.setSize(buttonDisplayLogs.getWidth(), buttonDisplayLogs.getHeight());
+
+		panel.add(createChannel, null);
+	}
+
 	private void DisconnectButton() {
-		disconnectButton.setLocation(
-				((this.getWidth() - mainLabel.getWidth() - 20) / 2) + mainLabel.getWidth() - buttonWidth / 4, 10);
-		disconnectButton.setSize(buttonWidth / 2, buttonHeight / 2);
+		disconnectButton.setLocation(createChannel.getX() + createChannel.getWidth() + 20, 10);
+		disconnectButton.setSize(buttonDisplayLogs.getWidth(), buttonDisplayLogs.getHeight());
+
 		panel.add(disconnectButton, null);
 	}
 
+	private void MainLabel() {
+		tp.setLocation(10, buttonHeight + 10);
+		tp.setSize(600, this.getHeight() - 120);
+		tp.setEditable(false);
+		tp.setBorder(BorderFactory.createLineBorder(Color.black));
+		tp.setText("Bienvenue sur le canal " + UserConfigs.getCurrentChannel());
+
+		StyleConstants.setBold(set, true);
+
+		// Set the attributes before adding text
+		tp.setCharacterAttributes(set, true);
+		tp.setText("java2s.com ");
+
+		set = new SimpleAttributeSet();
+		StyleConstants.setItalic(set, true);
+		StyleConstants.setForeground(set, Color.blue);
+
+		tp.setCharacterAttributes(set, true);
+		tp.setText("Bienvenue sur le canal " + UserConfigs.getCurrentChannel());
+
+		panel.add(tp, null);
+
+	}
+
 	private void ListOfMemberArea() {
-		labelMembers.setLocation(mainLabel.getWidth() + 10,
-				disconnectButton.getY() + disconnectButton.getHeight() + 10);
-		labelMembers.setSize(this.getWidth() - mainLabel.getWidth() - 40, 10);
-		labelMembers.setOpaque(true);
-		labelMembers.setBackground(Color.WHITE);
+		JScrollPane sPaneTextAreaMembers = new JScrollPane(textAreaMembers);
+
+		labelMembers.setLocation(tp.getX() + tp.getWidth() + 5, tp.getY() - 10);
+		labelMembers.setSize(this.getWidth() - tp.getWidth() - tp.getX(), 10);
+
 		panel.add(labelMembers, null);
 
-		textAreaMembers.setLocation(labelMembers.getX(), labelMembers.getY() + labelMembers.getHeight() + 5);
-		textAreaMembers.setSize(labelMembers.getWidth(), this.getHeight() - 300);
-		textAreaMembers.setEnabled(false);
-		panel.add(textAreaMembers, null);
+		sPaneTextAreaMembers.setLocation(labelMembers.getX(), labelMembers.getY() + labelMembers.getHeight() + 5);
+		sPaneTextAreaMembers.setSize(labelMembers.getWidth() - 15, this.getHeight() - 300);
+
+		System.out.println(sPaneTextAreaMembers.getY());
+
+		textAreaMembers.setBackground(Color.lightGray);
+		textAreaMembers.setEditable(false);
+		panel.add(sPaneTextAreaMembers, null);
 	}
 
 	private void ListOfChannelArea() {
-		JScrollPane sPaneTextAreaChannels = new JScrollPane(textAreaChannels);
+		JScrollPane sPaneTextAreaChannels = new JScrollPane(channelsList);
 
-		labelChannels.setLocation(mainLabel.getWidth() + 10, textAreaMembers.getY() + textAreaMembers.getHeight() + 5);
-		labelChannels.setSize(this.getWidth() - mainLabel.getWidth() - 40, 10);
-		labelChannels.setOpaque(true);
-		labelChannels.setBackground(Color.WHITE);
+		labelChannels.setLocation(labelMembers.getX(), 350);
+		labelChannels.setSize(labelMembers.getWidth(), labelMembers.getHeight());
+
 		panel.add(labelChannels, null);
 
+		// create the list
+		channelsList = new JList<String>();
+
 		sPaneTextAreaChannels.setLocation(labelChannels.getX(), labelChannels.getY() + labelChannels.getHeight() + 5);
-		sPaneTextAreaChannels.setSize(labelChannels.getWidth(), this.getHeight() - 45 - labelMembers.getHeight()
-				- textAreaMembers.getHeight() - labelChannels.getHeight() - buttonHeight * 3);
-		
-		textAreaChannels.setEditable(false);
-		textAreaChannels.setOpaque(false);
+		sPaneTextAreaChannels.setSize(labelChannels.getWidth() - 15, 145);
+		sPaneTextAreaChannels.getViewport().add(channelsList);
 		panel.add(sPaneTextAreaChannels, null);
-	}
-
-	private void SendButton() {
-
-		if (UserConfigs.isLogged() && UserConfigs.isConnectedToAChannel()) {
-			sendButton.setEnabled(true);
-		} else {
-			sendButton.setEnabled(false);
-		}
-
-		sendButton.setLocation(
-				((this.getWidth() - mainLabel.getWidth() - 20) / 2) + mainLabel.getWidth() - buttonWidth / 4, 525);
-		sendButton.setSize(buttonWidth / 2, 20);
-		panel.add(sendButton, null);
-	}
-
-	private void MainLabel() {
-		mainLabel.setLocation(10, 10);
-		mainLabel.setSize(550, this.getHeight() - 100);
-		mainLabel.setEnabled(false);
-		panel.add(mainLabel, null);
-
-		buttonDisplayLogs.setSize(buttonWidth, buttonHeight);
-		buttonDisplayLogs.setLocation(mainLabel.getWidth() / 2 - buttonWidth / 2,
-				buttonSetPass.getY() + buttonSetPass.getHeight() + 20);
-
-		if (UserConfigs.isLogged() && !UserConfigs.isConnectedToAChannel()) {
-			panel.add(buttonDisplayLogs, null);
-		}
 
 	}
 
@@ -152,18 +177,41 @@ public class MainWindow extends JFrame {
 			textfield.setEnabled(false);
 		}
 
-		textfield.setEnabled(false);
-		textfield.setLocation(10, sendButton.getY());
-		textfield.setSize(sendButton.getX() - 20, 20);
+		textfield.setLocation(10, tp.getY() + tp.getHeight() + 20);
+		textfield.setSize(tp.getWidth(), 20);
+
 		panel.add(textfield, null);
 	}
 
-	public JTextArea getTextAreaChannels() {
-		return textAreaChannels;
+	private void ChangeChannelButton() {
+		joinChannel.setLocation(labelChannels.getX() + 5, 510);
+		joinChannel.setSize(buttonWidth / 2, 20);
+		
+		joinChannel.addActionListener(new SelectChannel(channelsList.getSelectedValue(), "Rejoindre"));
+
+		panel.add(joinChannel, null);
 	}
 
-	public void setTextAreaChannels(JTextArea textAreaChannels) {
-		this.textAreaChannels = textAreaChannels;
+	private void SendButton() {
+
+		if (UserConfigs.isLogged() && UserConfigs.isConnectedToAChannel()) {
+			sendButton.setEnabled(true);
+		} else {
+			sendButton.setEnabled(false);
+		}
+
+		sendButton.setLocation(labelChannels.getX(), textfield.getY());
+		sendButton.setSize(buttonWidth / 2, 20);
+
+		panel.add(sendButton, null);
+	}
+
+	public JList<String> getChannelsList() {
+		return channelsList;
+	}
+
+	public void setChannelsList(JList<String> channelsList) {
+		this.channelsList = channelsList;
 	}
 
 	public JScrollPane getSPaneTextAreaChannels() {
@@ -173,4 +221,29 @@ public class MainWindow extends JFrame {
 	public void setSPaneTextAreaChannels(JScrollPane sPaneTextAreaChannels) {
 		this.sPaneTextAreaChannels = sPaneTextAreaChannels;
 	}
+
+	public JTextArea getTextAreaMembers() {
+		return textAreaMembers;
+	}
+
+	public void setTextAreaMembers(JTextArea textAreaMembers) {
+		this.textAreaMembers = textAreaMembers;
+	}
+
+	public JScrollPane getSPaneTextAreaMembers() {
+		return sPaneTextAreaMembers;
+	}
+
+	public void setSPaneTextAreaMembers(JScrollPane sPaneTextAreaMembers) {
+		this.sPaneTextAreaMembers = sPaneTextAreaMembers;
+	}
+
+	public SimpleAttributeSet getSet() {
+		return set;
+	}
+
+	public void setSet(SimpleAttributeSet set) {
+		this.set = set;
+	}
+
 }
