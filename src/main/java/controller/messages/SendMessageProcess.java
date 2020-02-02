@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
 
 import controller.buttons.ConnectAction;
 import controller.threads.ThreadListener;
-import controller.threads.ThreadListenerMessage;
+import controller.threads.ThreadListenerMembersList;
 import model.userConfigs.UserConfigs;
 
 public class SendMessageProcess {
@@ -62,7 +62,7 @@ public class SendMessageProcess {
 				UserConfigs.setClientSocket(new Socket(UserConfigs.getServer(), UserConfigs.getPort()));
 				UserConfigs.setT(new Thread(new ThreadListener()));
 				UserConfigs.getT().start();
-				UserConfigs.setT2(new Thread(new ThreadListenerMessage()));
+				UserConfigs.setT2(new Thread(new ThreadListenerMembersList()));
 				UserConfigs.getT2().start();
 
 				processClient(msg);

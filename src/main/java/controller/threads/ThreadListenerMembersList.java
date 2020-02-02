@@ -18,11 +18,11 @@ import org.apache.log4j.Logger;
 import controller.buttons.ConnectAction;
 import model.userConfigs.UserConfigs;
 
-public class ThreadListenerMessage extends Thread {
+public class ThreadListenerMembersList extends Thread {
 
 	private static final Logger LOG = Logger.getLogger(ConnectAction.class.getName());
 
-	public ThreadListenerMessage() {
+	public ThreadListenerMembersList() {
 
 	}
 
@@ -30,12 +30,8 @@ public class ThreadListenerMessage extends Thread {
 	public synchronized void run() {
 		String msg = null;
 
-		
-
 		if (!UserConfigs.isLogged()) {
-
 			processClient(msg);
-
 		}
 	}
 
@@ -47,11 +43,11 @@ public class ThreadListenerMessage extends Thread {
 		LOG.info("[CLIENT] - Message d'instruction : " + UserConfigs.getInstruction() + " -> " + msg);
 		while (!UserConfigs.isStopTheThreadMessage()) {
 			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
-			+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()
-			+ "\",\"instruction\":\"list_channel_members\"}";
+					+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()
+					+ "\",\"instruction\":\"list_channel_members\"}";
 			try {
 				UserConfigs.getT2();
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

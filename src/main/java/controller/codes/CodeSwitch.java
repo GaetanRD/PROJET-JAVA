@@ -16,10 +16,7 @@ import java.util.LinkedList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
-
 import controller.messages.SendMessageProcess;
-import controller.threads.ThreadListenerMessage;
 import model.userConfigs.UserConfigs;
 import view.Login;
 import view.MainWindow;
@@ -33,18 +30,11 @@ public class CodeSwitch {
 		switch ((Integer) lList.get(0)) {
 		case 130:
 			receiveMessage(lList);
-			System.out.println("--------- Demande la liste des membres d'un channel ---------");
-			UserConfigs.setInstruction("list_channel_members");
-			new SendMessageProcess();
 		case 200:
 			if (UserConfigs.getInstruction() == "connect") {
 				connectWindow();
 			} else if (UserConfigs.getInstruction() == "disconnect") {
 				disconnectWindow();
-			} else if (UserConfigs.getInstruction() == "subscribe_channel") {
-				System.out.println("--------- Demande la liste des membres d'un channel ---------");
-				UserConfigs.setInstruction("list_channel_members");
-				new SendMessageProcess();
 			}
 			break;
 		case 310:

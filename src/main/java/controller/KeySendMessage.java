@@ -11,14 +11,11 @@ public class KeySendMessage implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getKeyChar() == Event.ENTER && !UserConfigs.getMainWindow().getTextfield().getText().isEmpty()) {
 			UserConfigs.setInstruction("send_message");
 			new SendMessageProcess();
 			UserConfigs.getMainWindow().getTextfield().setText("");
 		}
-		
-		
 
 	}
 

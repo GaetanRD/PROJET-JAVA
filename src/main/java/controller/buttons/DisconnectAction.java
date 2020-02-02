@@ -25,14 +25,8 @@ public class DisconnectAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("-------- Bouton de déconnexion cliqué -----------");
 
-		UserConfigs.setInstruction("disconnect");		
+		UserConfigs.setInstruction("disconnect");
 		new SendMessageProcess();
-		
-		
-		
-		
-		
-		
 
 	}
 

@@ -14,7 +14,7 @@ import java.net.Socket;
 import java.util.LinkedList;
 
 import controller.threads.ThreadListener;
-import controller.threads.ThreadListenerMessage;
+import controller.threads.ThreadListenerMembersList;
 import view.Login;
 import view.MainWindow;
 
@@ -36,7 +36,7 @@ public class UserConfigs {
 
 	private static Socket clientSocket;
 	private static Thread t = new Thread(new ThreadListener());
-	private static Thread t2 = new Thread(new ThreadListenerMessage());
+	private static Thread t2 = new Thread(new ThreadListenerMembersList());
 
 	private static LinkedList<String> membersList = new LinkedList<>();
 
