@@ -31,10 +31,9 @@ public class SelectChannel extends AbstractAction {
 
 			if (!UserConfigs.getCurrentChannel()
 					.equals(UserConfigs.getMainWindow().getChannelsList().getSelectedValue())) {
-				System.out.println(UserConfigs.getCurrentChannel() + " - "
-						+ UserConfigs.getMainWindow().getChannelsList().getSelectedValue());
 				UserConfigs.setInstruction("subscribe_channel");
 				new SendMessageProcess();
+				UserConfigs.setNewChannel(UserConfigs.getMainWindow().getChannelsList().getSelectedValue());
 				UserConfigs.setCurrentChannel(UserConfigs.getNewChannel());
 
 			} else {
@@ -42,6 +41,8 @@ public class SelectChannel extends AbstractAction {
 						"Information", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
+		
+		System.out.println(UserConfigs.getCurrentChannel());
 
 	}
 

@@ -32,7 +32,7 @@ public class ThreadListener implements Runnable {
 			isr = new InputStreamReader(in, "UTF-8");
 			br = new BufferedReader(isr);
 
-			while (!UserConfigs.isStopTheThread()) {
+			while (true) {
 
 				lList.clear();
 
@@ -41,14 +41,15 @@ public class ThreadListener implements Runnable {
 
 				if (line != null) {
 					final String ip = UserConfigs.getClientSocket().getInetAddress().getHostAddress();
-					LOG.info(ip + " : " + line);
+//					LOG.info(ip + " : " + line);
 					DecodeJSon dJson = new DecodeJSon(line);
-					System.out.println("-------" + dJson.getaObj());
 
 					for (int i = 0; i < dJson.getaObj().size(); i++) {
 						lList.add(dJson.getaObj().get(i));
 					}
-
+					if((Integer)lList.get(0) == 130)
+					LOG.info(ip + " : " + line);
+					
 					new CodeSwitch(lList);
 
 				}

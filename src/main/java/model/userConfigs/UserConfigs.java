@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.util.LinkedList;
 
 import controller.threads.ThreadListener;
+import controller.threads.ThreadListenerChannelsList;
 import controller.threads.ThreadListenerMembersList;
 import view.Login;
 import view.MainWindow;
@@ -27,7 +28,8 @@ public class UserConfigs {
 	private static int port;
 
 	private static boolean stopTheThread;
-	private static boolean stopTheThreadMessage;
+	private static boolean stopTheThreadMembers;
+	private static boolean stopTheThreadChannels;
 
 	private static String message;
 
@@ -37,6 +39,7 @@ public class UserConfigs {
 	private static Socket clientSocket;
 	private static Thread t = new Thread(new ThreadListener());
 	private static Thread t2 = new Thread(new ThreadListenerMembersList());
+	private static Thread t3 = new Thread(new ThreadListenerChannelsList());
 
 	private static LinkedList<String> membersList = new LinkedList<>();
 
@@ -53,7 +56,8 @@ public class UserConfigs {
 		UserConfigs.setLogged(false);
 		UserConfigs.setConnectedToAChannel(false);
 		UserConfigs.setStopTheThread(false);
-		UserConfigs.setStopTheThreadMessage(false);
+		UserConfigs.setStopTheThreadChannels(false);
+		UserConfigs.setStopTheThreadMembers(false);
 
 	}
 
@@ -189,19 +193,35 @@ public class UserConfigs {
 		UserConfigs.membersList = membersList;
 	}
 
-	public static boolean isStopTheThreadMessage() {
-		return stopTheThreadMessage;
-	}
-
-	public static void setStopTheThreadMessage(boolean stopTheThreadMessage) {
-		UserConfigs.stopTheThreadMessage = stopTheThreadMessage;
-	}
-
 	public static Thread getT2() {
 		return t2;
 	}
 
 	public static void setT2(Thread t2) {
 		UserConfigs.t2 = t2;
+	}
+
+	public static Thread getT3() {
+		return t3;
+	}
+
+	public static void setT3(Thread t3) {
+		UserConfigs.t3 = t3;
+	}
+
+	public static boolean isStopTheThreadMembers() {
+		return stopTheThreadMembers;
+	}
+
+	public static void setStopTheThreadMembers(boolean stopTheThreadMembers) {
+		UserConfigs.stopTheThreadMembers = stopTheThreadMembers;
+	}
+
+	public static boolean isStopTheThreadChannels() {
+		return stopTheThreadChannels;
+	}
+
+	public static void setStopTheThreadChannels(boolean stopTheThreadChannels) {
+		UserConfigs.stopTheThreadChannels = stopTheThreadChannels;
 	}
 }

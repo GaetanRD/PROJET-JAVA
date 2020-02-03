@@ -18,11 +18,11 @@ import org.apache.log4j.Logger;
 import controller.buttons.ConnectAction;
 import model.userConfigs.UserConfigs;
 
-public class ThreadListenerMembersList extends Thread {
+public class ThreadListenerChannelsList extends Thread {
 
 	private static final Logger LOG = Logger.getLogger(ConnectAction.class.getName());
 
-	public ThreadListenerMembersList() {
+	public ThreadListenerChannelsList() {
 
 	}
 
@@ -40,18 +40,16 @@ public class ThreadListenerMembersList extends Thread {
 		OutputStreamWriter osw = null;
 		PrintWriter pw = null;
 
-		LOG.info("[CLIENT] - Message d'instruction : list_channel_members -> " + msg);
-		while (!UserConfigs.isStopTheThreadMembers()) {
-			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
-					+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()
-					+ "\",\"instruction\":\"list_channel_members\"}";
+		LOG.info("[CLIENT] - Message d'instruction : list_channels -> " + msg);
+		while (!UserConfigs.isStopTheThreadChannels()) {
+			msg = "{\"login\":\"" + UserConfigs.getLogin() 
+					+ "\",\"password\":\"sha1:" + UserConfigs.getPass()
+					+ "\",\"instruction\":\"list_channels\"}";
 			
-			System.out.println(msg);
 			try {
-				UserConfigs.getT2();
+				UserConfigs.getT3();
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			try {

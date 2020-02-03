@@ -24,6 +24,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import controller.KeySendMessage;
+import controller.buttons.CreateChannel;
 import controller.buttons.DisconnectAction;
 import controller.buttons.SelectChannel;
 import controller.buttons.SendMessage;
@@ -54,7 +55,7 @@ public class MainWindow extends JFrame {
 	private JButton buttonDisplayLogs = new JButton("Accèder aux logs");
 	private JButton disconnectButton = new JButton(new DisconnectAction("Se déconnecter"));
 	private JButton sendButton = new JButton("Envoyer");
-	private JButton createChannel = new JButton("Créer un channel");
+	private JButton createChannel = new JButton(new CreateChannel("Créer un channel"));
 	private JButton joinChannel = new JButton("Rejoindre");
 
 	private int buttonWidth = 300;
@@ -118,12 +119,11 @@ public class MainWindow extends JFrame {
 		tp.setSize(600, this.getHeight() - 120);
 		tp.setEditable(false);
 		tp.setBorder(BorderFactory.createLineBorder(Color.black));
-		tp.setText("Bienvenue sur le canal " + UserConfigs.getCurrentChannel());
+		
 		
 		setWelcome = new SimpleAttributeSet();
 		StyleConstants.setForeground(setWelcome, Color.blue);
 		tp.setCharacterAttributes(setWelcome, true);
-		tp.setText("Bienvenue sur le canal " + UserConfigs.getCurrentChannel() + "\n");
 		
 		setUserMessage = new SimpleAttributeSet();
 		StyleConstants.setForeground(setUserMessage, Color.black);

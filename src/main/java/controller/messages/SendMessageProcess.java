@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 
 import controller.buttons.ConnectAction;
 import controller.threads.ThreadListener;
+import controller.threads.ThreadListenerChannelsList;
 import controller.threads.ThreadListenerMembersList;
 import model.userConfigs.UserConfigs;
 
@@ -39,23 +40,19 @@ public class SendMessageProcess {
 					+ "\",\"instruction\":\"subscribe_channel\",\"target_channel\":\"" + UserConfigs.getNewChannel()
 					+ "\"}";
 
-		} else if (UserConfigs.getInstruction() == "list_channel_members") {
-
-			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
-					+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()
-					+ "\",\"instruction\":\"list_channel_members\"}";
-
 		} else if (UserConfigs.getInstruction() == "send_message") {
 
 			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
 					+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()
 					+ "\",\"instruction\":\"send_message\",\"message\":" + UserConfigs.getMessage() + "}";
-
+		System.out.println("fezzzzzzzzzzz" + UserConfigs.getCurrentChannel() + "zzzzzzzzzzzzzzzzzzzzzzzz" + UserConfigs.getInstruction());
 		} else {
-
+			
 			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
 					+ "\",\"instruction\":" + UserConfigs.getInstruction() + "}";
 		}
+		
+		System.out.println(msg);
 
 		if (!UserConfigs.isLogged()) {
 			try {
@@ -64,6 +61,8 @@ public class SendMessageProcess {
 				UserConfigs.getT().start();
 				UserConfigs.setT2(new Thread(new ThreadListenerMembersList()));
 				UserConfigs.getT2().start();
+				UserConfigs.setT3(new Thread(new ThreadListenerChannelsList()));
+				UserConfigs.getT3().start();
 
 				processClient(msg);
 			} catch (IOException e1) {

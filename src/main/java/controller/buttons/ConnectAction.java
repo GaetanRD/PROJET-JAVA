@@ -39,7 +39,6 @@ public class ConnectAction extends AbstractAction {
 			UserConfigs.setServer("localhost");
 			UserConfigs.setPort(4567);
 			UserConfigs.setInstruction("connect");
-			UserConfigs.setStopTheThread(false);
 			new SendMessageProcess();
 
 		}

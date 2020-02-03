@@ -29,12 +29,12 @@ public class DecodeJSon {
 				JSONArray jAObj = new JSONArray();
 
 				if (obj.getInt("code") == 120) {
+					
 					jAObj = obj.optJSONArray("all_channel");
 				} else {
 					jAObj = obj.optJSONArray("all_members");
 				}
 
-				System.out.println(jAObj.length());
 				for (int i = 0; i < jAObj.length(); i++) {
 					aObj.add(jAObj.getString(i));
 				}
