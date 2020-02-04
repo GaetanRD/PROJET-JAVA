@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 public class CloseProgram extends AbstractAction {
-	private static final long serialVersionUID = 1L;
 
 	public CloseProgram(String texte) {
 		super(texte);

@@ -27,6 +27,10 @@ public class ConnectAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("-------- Bouton de connexion cliqué -----------");
+		System.out.println(UserConfigs.getLoginWindow().getLoginField().getText());
+		System.out.println(UserConfigs.getLoginWindow().getPasswordField().getText());
+		System.out.println(UserConfigs.getLoginWindow().getAdrServer().getText());
+		System.out.println(UserConfigs.getLoginWindow().getPortServer().getText());
 				
 		if (UserConfigs.getLoginWindow().getLoginField().getText().isEmpty()
 				|| UserConfigs.getLoginWindow().getPasswordField().getText().isEmpty()) {
@@ -36,8 +40,8 @@ public class ConnectAction extends AbstractAction {
 		} else {
 			UserConfigs.setLogin(UserConfigs.getLoginWindow().getLoginField().getText());
 			UserConfigs.setPass(UserConfigs.getLoginWindow().getPasswordField().getText());
-			UserConfigs.setServer("localhost");
-			UserConfigs.setPort(4567);
+			UserConfigs.setServer(UserConfigs.getLoginWindow().getAdrServer().getText());
+			UserConfigs.setPort(Integer.parseInt(UserConfigs.getLoginWindow().getPortServer().getText()));
 			UserConfigs.setInstruction("connect");
 			new SendMessageProcess();
 
