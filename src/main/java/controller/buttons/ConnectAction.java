@@ -27,11 +27,7 @@ public class ConnectAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("-------- Bouton de connexion cliqué -----------");
-		System.out.println(UserConfigs.getLoginWindow().getLoginField().getText());
-		System.out.println(UserConfigs.getLoginWindow().getPasswordField().getText());
-		System.out.println(UserConfigs.getLoginWindow().getAdrServer().getText());
-		System.out.println(UserConfigs.getLoginWindow().getPortServer().getText());
-				
+		
 		if (UserConfigs.getLoginWindow().getLoginField().getText().isEmpty()
 				|| UserConfigs.getLoginWindow().getPasswordField().getText().isEmpty()) {
 			JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Erreur : des champs sont vides", "Information",
@@ -40,9 +36,11 @@ public class ConnectAction extends AbstractAction {
 		} else {
 			UserConfigs.setLogin(UserConfigs.getLoginWindow().getLoginField().getText());
 			UserConfigs.setPass(UserConfigs.getLoginWindow().getPasswordField().getText());
-			UserConfigs.setServer(UserConfigs.getLoginWindow().getAdrServer().getText());
-			UserConfigs.setPort(Integer.parseInt(UserConfigs.getLoginWindow().getPortServer().getText()));
+			UserConfigs.setServer(UserConfigs.getLoginWindow().getAddrServerField().getText());
+			int port = Integer.parseInt(UserConfigs.getLoginWindow().getPortField().getText());
+			UserConfigs.setPort(port);
 			UserConfigs.setInstruction("connect");
+			
 			new SendMessageProcess();
 
 		}

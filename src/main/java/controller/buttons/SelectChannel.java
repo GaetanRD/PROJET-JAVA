@@ -31,18 +31,15 @@ public class SelectChannel extends AbstractAction {
 
 			if (!UserConfigs.getCurrentChannel()
 					.equals(UserConfigs.getMainWindow().getChannelsList().getSelectedValue())) {
+				UserConfigs.setNewChannel(UserConfigs.getMainWindow().getChannelsList().getSelectedValue());
 				UserConfigs.setInstruction("subscribe_channel");
 				new SendMessageProcess();
-				UserConfigs.setNewChannel(UserConfigs.getMainWindow().getChannelsList().getSelectedValue());
-				UserConfigs.setCurrentChannel(UserConfigs.getNewChannel());
 
 			} else {
 				JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Vous êtes déjà connecté ce channel",
 						"Information", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
-		
-		System.out.println(UserConfigs.getCurrentChannel());
 
 	}
 

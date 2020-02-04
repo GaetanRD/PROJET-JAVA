@@ -45,7 +45,6 @@ public class SendMessageProcess {
 			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
 					+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()
 					+ "\",\"instruction\":\"send_message\",\"message\":" + UserConfigs.getMessage() + "}";
-		System.out.println("fezzzzzzzzzzz" + UserConfigs.getCurrentChannel() + "zzzzzzzzzzzzzzzzzzzzzzzz" + UserConfigs.getInstruction());
 		} else {
 			
 			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()

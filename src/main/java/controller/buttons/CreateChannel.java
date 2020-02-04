@@ -27,27 +27,37 @@ public class CreateChannel extends AbstractAction {
 
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("-------- Bouton de création d'un channel cliqué -----------");
-		if (!UserConfigs.getMainWindow().getTextfield().getText().isEmpty()) {
-			for (int i = 0; i < UserConfigs.getMainWindow().getChannelsList().getModel().getSize(); i++) {
-				if (UserConfigs.getMainWindow().getChannelsList().getModel().getElementAt(i).toString()
-						.contains(UserConfigs.getMainWindow().getTextfield().getText())) {
-					JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Ce canal existe déjà.", "Information",
-							JOptionPane.INFORMATION_MESSAGE);
-					break;
-				} 
+
+		String newChannel = null;
+		int canCreate = 1;
+		newChannel = (String) JOptionPane.showInputDialog(UserConfigs.getMainWindow(), "Donnez un nom à votre canal",
+				"canal");
+		if (newChannel != null) {
+			if (newChannel.isEmpty()) {
+				JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Le nom de votre canal est vide.",
+						"Information", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+
+				for (int i = 0; i < UserConfigs.getMainWindow().getChannelsList().getModel().getSize(); i++) {
+					if (UserConfigs.getMainWindow().getChannelsList().getModel().getElementAt(i).toString()
+							.contains(newChannel)) {
+						JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Ce canal existe déjà.",
+								"Information", JOptionPane.INFORMATION_MESSAGE);
+						canCreate = 0;
+					}
+
+				}
+				if (canCreate == 1) {
+					UserConfigs.setNewChannel(newChannel);
+					UserConfigs.setInstruction("subscribe_channel");
+					new SendMessageProcess();
+					UserConfigs.setCurrentChannel(UserConfigs.getNewChannel());
+					UserConfigs.getMainWindow().getTextfield().setText("");
+				}
+
 			}
-			
-			UserConfigs.setNewChannel(UserConfigs.getMainWindow().getTextfield().getText());
-			UserConfigs.setInstruction("subscribe_channel");
-			new SendMessageProcess();
-			UserConfigs.setCurrentChannel(UserConfigs.getNewChannel());
-			UserConfigs.getMainWindow().getTextfield().setText("");
-			
-			
-			
-		} else {
-			JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Le nom de votre canal est vide.", "Information",
-					JOptionPane.INFORMATION_MESSAGE);
+
 		}
 	}
+
 }

@@ -71,6 +71,15 @@ public class CodeSwitch {
 	}
 
 	private void connectToAChannel() {
+		
+		if(!UserConfigs.isConnectedToAChannel()) {
+			UserConfigs.setConnectedToAChannel(true);
+			UserConfigs.setStopTheThreadMembers(false);	
+		} else {
+			UserConfigs.setNewChannel(UserConfigs.getMainWindow().getChannelsList().getSelectedValue());
+		}
+		
+		UserConfigs.setCurrentChannel(UserConfigs.getNewChannel());
 		UserConfigs.getMainWindow().getTp().setText("Bienvenue dans le canal " + UserConfigs.getCurrentChannel() + "\n");
 		UserConfigs.setInstruction("");
 
@@ -92,9 +101,7 @@ public class CodeSwitch {
 				"Information", JOptionPane.INFORMATION_MESSAGE);
 
 		UserConfigs.setLogged(true);
-		UserConfigs.setConnectedToAChannel(true);
 		UserConfigs.setStopTheThread(false);
-		UserConfigs.setStopTheThreadMembers(false);
 		UserConfigs.setStopTheThreadChannels(false);
 
 		MainWindow window = new MainWindow();
