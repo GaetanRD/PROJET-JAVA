@@ -119,15 +119,14 @@ public class MainWindow extends JFrame {
 		tp.setSize(600, this.getHeight() - 120);
 		tp.setEditable(false);
 		tp.setBorder(BorderFactory.createLineBorder(Color.black));
-		
-		
+
 		setWelcome = new SimpleAttributeSet();
 		StyleConstants.setForeground(setWelcome, Color.blue);
 		tp.setCharacterAttributes(setWelcome, true);
-		
+
 		setUserMessage = new SimpleAttributeSet();
 		StyleConstants.setForeground(setUserMessage, Color.black);
-		
+
 		panel.add(tp, null);
 
 	}
@@ -157,9 +156,8 @@ public class MainWindow extends JFrame {
 	}
 
 	private void ListOfMemberArea() {
-		
+
 		JScrollPane sPaneTextAreaMembers = new JScrollPane(textAreaMembers);
-		
 
 		labelMembers.setLocation(tp.getX() + tp.getWidth() + 5, tp.getY() - 10);
 		labelMembers.setSize(this.getWidth() - tp.getWidth() - tp.getX(), 10);
@@ -229,7 +227,7 @@ public class MainWindow extends JFrame {
 	}
 
 	private void SendButton() {
-
+// Gérer le boolean isConnected to a channel ailleurs
 		if (UserConfigs.isLogged() && UserConfigs.isConnectedToAChannel()) {
 			sendButton.setEnabled(true);
 		} else {
@@ -275,7 +273,6 @@ public class MainWindow extends JFrame {
 		this.sPaneTextAreaMembers = sPaneTextAreaMembers;
 	}
 
-	
 	public JTextField getTextfield() {
 		return textfield;
 	}
