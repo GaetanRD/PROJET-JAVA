@@ -24,6 +24,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import controller.KeySendMessage;
+import controller.buttons.ConnectLogAction;
 import controller.buttons.CreateChannel;
 import controller.buttons.DisconnectAction;
 import controller.buttons.SelectChannel;
@@ -52,7 +53,7 @@ public class MainWindow extends JFrame {
 
 	private JTextField textfield = new JTextField();
 
-	private JButton buttonDisplayLogs = new JButton("Accèder aux logs");
+	private JButton buttonDisplayLogs = new JButton(new ConnectLogAction("Accèder aux logs"));
 	private JButton disconnectButton = new JButton(new DisconnectAction("Se déconnecter"));
 	private JButton sendButton = new JButton("Envoyer");
 	private JButton createChannel = new JButton(new CreateChannel("Créer un channel"));
