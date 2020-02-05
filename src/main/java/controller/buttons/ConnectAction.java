@@ -40,9 +40,7 @@ public class ConnectAction extends AbstractAction {
 			int port = Integer.parseInt(UserConfigs.getLoginWindow().getPortField().getText());
 			UserConfigs.setPort(port);
 			UserConfigs.setInstruction("connect");
-			
 			new SendMessageProcess();
-
 		}
 
 	}

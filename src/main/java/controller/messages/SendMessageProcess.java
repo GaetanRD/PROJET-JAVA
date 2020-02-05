@@ -34,7 +34,6 @@ public class SendMessageProcess {
 		String msg = null;
 
 		if (UserConfigs.getInstruction() == "subscribe_channel") {
-
 			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
 					+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()
 					+ "\",\"instruction\":\"subscribe_channel\",\"target_channel\":\"" + UserConfigs.getNewChannel()
@@ -46,32 +45,33 @@ public class SendMessageProcess {
 					+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()
 					+ "\",\"instruction\":\"send_message\",\"message\":" + UserConfigs.getMessage() + "}";
 		} else {
-			
+
 			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
 					+ "\",\"instruction\":" + UserConfigs.getInstruction() + "}";
 		}
-		
-		System.out.println(msg);
 
 		if (!UserConfigs.isLogged()) {
 			try {
 				UserConfigs.setClientSocket(new Socket(UserConfigs.getServer(), UserConfigs.getPort()));
 				UserConfigs.setT(new Thread(new ThreadListener()));
 				UserConfigs.getT().start();
-				UserConfigs.setT2(new Thread(new ThreadListenerMembersList()));
-				UserConfigs.getT2().start();
 				UserConfigs.setT3(new Thread(new ThreadListenerChannelsList()));
 				UserConfigs.getT3().start();
+				UserConfigs.setT2(new Thread(new ThreadListenerMembersList()));
+				UserConfigs.getT2().start();
+				
 
 				processClient(msg);
 			} catch (IOException e1) {
 				LOG.error("Error during socket init.", e1);
-				JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Erreur : impossible de joindre le serveur", "Information",
-						JOptionPane.INFORMATION_MESSAGE);
-				
+				JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Erreur : impossible de joindre le serveur",
+						"Information", JOptionPane.INFORMATION_MESSAGE);
+
 			}
 		} else {
+
 			processClient(msg);
+
 		}
 
 	}

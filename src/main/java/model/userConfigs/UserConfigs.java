@@ -38,28 +38,22 @@ public class UserConfigs {
 	private static MainWindow mainWindow;
 
 	private static Socket clientSocket;
-	private static Thread t = new Thread(new ThreadListener());
-	private static Thread t2 = new Thread(new ThreadListenerMembersList());
-	private static Thread t3 = new Thread(new ThreadListenerChannelsList());
+	private static Thread t = new Thread();
+	private static Thread t2;
+	private static Thread t3;
 
 	private static LinkedList<String> membersList = new LinkedList<>();
 
 	private static String currentChannel;
 	private static String newChannel;
+	private static int indexChannel;
 
 	private static boolean logged; // May to disable or enable objects if the user is connected to the app or not
 	private static boolean connectedToAChannel; // May to disable or enable objects if the user is connected to a
 												// channel or not
 
 	public UserConfigs(String login, String pass) {
-		UserConfigs.setLogin(login);
-		UserConfigs.setPass(pass);
-		UserConfigs.setLogged(false);
-		UserConfigs.setConnectedToAChannel(false);
-		UserConfigs.setStopTheThread(false);
-		UserConfigs.setStopTheThreadChannels(false);
-		UserConfigs.setStopTheThreadMembers(false);
-
+	
 	}
 
 	public static void exitLoginWindow() {
@@ -224,5 +218,13 @@ public class UserConfigs {
 
 	public static void setStopTheThreadChannels(boolean stopTheThreadChannels) {
 		UserConfigs.stopTheThreadChannels = stopTheThreadChannels;
+	}
+
+	public static int getIndexChannel() {
+		return indexChannel;
+	}
+
+	public static void setIndexChannel(int indexChannel) {
+		UserConfigs.indexChannel = indexChannel;
 	}
 }

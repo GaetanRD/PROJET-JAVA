@@ -30,32 +30,34 @@ public class CreateChannel extends AbstractAction {
 
 		String newChannel = null;
 		int canCreate = 1;
-		newChannel = (String) JOptionPane.showInputDialog(UserConfigs.getMainWindow(), "Donnez un nom à votre canal",
-				"canal");
-		if (newChannel != null) {
-			if (newChannel.isEmpty()) {
+		int size =  UserConfigs.getMainWindow().getChannelsList().getModel().getSize();
+		newChannel = (String) JOptionPane.showInputDialog(UserConfigs.getMainWindow(), "Donnez un nom à votre canal");
+
+		if (newChannel == null || newChannel.isEmpty()) {
+			
 				JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Le nom de votre canal est vide.",
-						"Information", JOptionPane.INFORMATION_MESSAGE);
-			} else {
+					"Information", JOptionPane.INFORMATION_MESSAGE);
+				canCreate = 0;
+			
+		} else {
 
-				for (int i = 0; i < UserConfigs.getMainWindow().getChannelsList().getModel().getSize(); i++) {
-					if (UserConfigs.getMainWindow().getChannelsList().getModel().getElementAt(i).toString()
-							.contains(newChannel)) {
-						JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Ce canal existe déjà.",
-								"Information", JOptionPane.INFORMATION_MESSAGE);
-						canCreate = 0;
-					}
-
-				}
-				if (canCreate == 1) {
-					UserConfigs.setNewChannel(newChannel);
-					UserConfigs.setInstruction("subscribe_channel");
-					new SendMessageProcess();
-					UserConfigs.setCurrentChannel(UserConfigs.getNewChannel());
-					UserConfigs.getMainWindow().getTextfield().setText("");
+			for (int i = 0; i < size; i++) {
+				if (UserConfigs.getMainWindow().getChannelsList().getModel().getElementAt(i).toString()
+						.contains(newChannel)) {
+					JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Ce canal existe déjà.", "Information",
+							JOptionPane.INFORMATION_MESSAGE);
+					canCreate = 0;
 				}
 
 			}
+
+		}
+		if (canCreate == 1) {
+
+			UserConfigs.setNewChannel(newChannel);System.out.println("femzoiqhezoighezmrogihqezomgfezqfjm" + UserConfigs.getCurrentChannel());
+			System.out.println("fmozeigj" + UserConfigs.getNewChannel());
+			UserConfigs.setInstruction("subscribe_channel");
+			new SendMessageProcess();
 
 		}
 	}

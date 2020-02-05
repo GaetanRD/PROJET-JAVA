@@ -40,46 +40,46 @@ public class ThreadListenerMembersList extends Thread {
 		OutputStreamWriter osw = null;
 		PrintWriter pw = null;
 
-		LOG.info("[CLIENT] - Message d'instruction : list_channel_members -> " + msg);
-		while (!UserConfigs.isStopTheThreadMembers()) {
+		do {
 			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
 					+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()
 					+ "\",\"instruction\":\"list_channel_members\"}";
-			
-			System.out.println(msg);
-			try {
-				UserConfigs.getT2();
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				// Open the output stream of the client socket.
-				out = UserConfigs.getClientSocket().getOutputStream();
-				osw = new OutputStreamWriter(out);
-				pw = new PrintWriter(osw);
+			if (!msg.isEmpty()) {
+				LOG.info("[CLIENT] - Message d'instruction : list_channel_members -> " + msg);
+				try {
+					UserConfigs.getT2();
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					// Open the output stream of the client socket.
+					out = UserConfigs.getClientSocket().getOutputStream();
+					osw = new OutputStreamWriter(out);
+					pw = new PrintWriter(osw);
 
-				// Print and fluch the msg in the pipeline
-				pw.println(msg);
-				pw.flush();
+					// Print and fluch the msg in the pipeline
+					pw.println(msg);
+					pw.flush();
 
-			} catch (IOException e) {
-				LOG.error("Error during socket outputstream.", e);
-			} finally {
-				if (UserConfigs.getClientSocket().isClosed()) {
-					if (pw != null) {
-						pw = null;
-					}
-					if (osw != null) {
-						osw = null;
-					}
-					if (out != null) {
-						out = null;
+				} catch (IOException e) {
+					LOG.error("Error during socket outputstream.", e);
+				} finally {
+					if (UserConfigs.getClientSocket().isClosed()) {
+						if (pw != null) {
+							pw = null;
+						}
+						if (osw != null) {
+							osw = null;
+						}
+						if (out != null) {
+							out = null;
+						}
 					}
 				}
 			}
-		}
+		}while (UserConfigs.isLogged());
 	}
 
 }

@@ -3,8 +3,6 @@ package controller;
 import java.awt.Event;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-
 import controller.messages.SendMessageProcess;
 import model.userConfigs.UserConfigs;
 
@@ -16,14 +14,6 @@ public class KeySendMessage implements KeyListener {
 			UserConfigs.setInstruction("send_message");
 			new SendMessageProcess();
 			UserConfigs.getMainWindow().getTextfield().setText("");
-		}
-
-		ArrayList<String> a = new ArrayList<>();
-
-		if (UserConfigs.getLoginWindow().getLoginField().getText().length() > 44) {
-
-			UserConfigs.getLoginWindow().getLoginField().setText(UserConfigs.getLoginWindow().getLoginField().getText()
-					.substring(0, UserConfigs.getLoginWindow().getLoginField().getText().length() - 1));
 		}
 
 	}

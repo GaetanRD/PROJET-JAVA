@@ -20,7 +20,6 @@ public class SendMessage extends AbstractAction {
 		if (!UserConfigs.getMainWindow().getTextfield().getText().isEmpty()) {
 			UserConfigs.setInstruction("send_message");
 			new SendMessageProcess();
-			System.out.println("message partie");
 			UserConfigs.getMainWindow().getTextfield().setText("");
 		}
 		

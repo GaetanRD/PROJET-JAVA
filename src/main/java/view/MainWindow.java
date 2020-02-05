@@ -50,6 +50,7 @@ public class MainWindow extends JFrame {
 
 	JScrollPane sPaneTextAreaMembers = new JScrollPane(textAreaMembers);
 	JScrollPane sPaneTextAreaChannels = new JScrollPane(channelsList);
+	JScrollPane sPaneTextMainLabel = new JScrollPane(tp);
 
 	private JTextField textfield = new JTextField();
 
@@ -116,19 +117,19 @@ public class MainWindow extends JFrame {
 	}
 
 	private void MainLabel() {
-		tp.setLocation(10, buttonHeight + 10);
-		tp.setSize(600, this.getHeight() - 120);
+		
+		sPaneTextMainLabel.setLocation(10, buttonHeight + 10);
+		sPaneTextMainLabel.setSize(600, this.getHeight() - 120);
 		tp.setEditable(false);
-		tp.setBorder(BorderFactory.createLineBorder(Color.black));
+		sPaneTextMainLabel.setBorder(BorderFactory.createLineBorder(Color.black));
+		sPaneTextMainLabel.setOpaque(true);
 
 		setWelcome = new SimpleAttributeSet();
 		StyleConstants.setForeground(setWelcome, Color.blue);
 		tp.setCharacterAttributes(setWelcome, true);
-
-		setUserMessage = new SimpleAttributeSet();
-		StyleConstants.setForeground(setUserMessage, Color.black);
-
-		panel.add(tp, null);
+		
+		sPaneTextMainLabel.getViewport().add(tp);
+		panel.add(sPaneTextMainLabel, null);
 
 	}
 
@@ -160,15 +161,13 @@ public class MainWindow extends JFrame {
 
 		JScrollPane sPaneTextAreaMembers = new JScrollPane(textAreaMembers);
 
-		labelMembers.setLocation(tp.getX() + tp.getWidth() + 5, tp.getY() - 10);
-		labelMembers.setSize(this.getWidth() - tp.getWidth() - tp.getX(), 10);
+		labelMembers.setLocation(sPaneTextMainLabel.getX() + sPaneTextMainLabel.getWidth() + 5, sPaneTextMainLabel.getY() - 10);
+		labelMembers.setSize(this.getWidth() - sPaneTextMainLabel.getWidth() - sPaneTextMainLabel.getX(), 10);
 
 		panel.add(labelMembers, null);
 
 		sPaneTextAreaMembers.setLocation(labelMembers.getX(), labelMembers.getY() + labelMembers.getHeight() + 5);
 		sPaneTextAreaMembers.setSize(labelMembers.getWidth() - 15, this.getHeight() - 300);
-
-		System.out.println(sPaneTextAreaMembers.getY());
 
 		textAreaMembers.setBackground(Color.lightGray);
 		textAreaMembers.setEditable(false);
@@ -195,17 +194,12 @@ public class MainWindow extends JFrame {
 
 	private void TextField() {
 
-		if (UserConfigs.isLogged() && UserConfigs.isConnectedToAChannel()) {
-			textfield.setEnabled(true);
-		} else {
-			textfield.setEnabled(false);
-		}
+		textfield.setEnabled(false);
 
-		textfield.setLocation(10, tp.getY() + tp.getHeight() + 20);
-		textfield.setSize(tp.getWidth(), 20);
+		textfield.setLocation(10, sPaneTextMainLabel.getY() + sPaneTextMainLabel.getHeight() + 20);
+		textfield.setSize(sPaneTextMainLabel.getWidth(), 20);
 
 		textfield.addKeyListener(new KeySendMessage());
-		System.out.println(UserConfigs.getMessage());
 
 		panel.add(textfield, null);
 	}
@@ -228,18 +222,22 @@ public class MainWindow extends JFrame {
 	}
 
 	private void SendButton() {
-// Gérer le boolean isConnected to a channel ailleurs
-		if (UserConfigs.isLogged() && UserConfigs.isConnectedToAChannel()) {
-			sendButton.setEnabled(true);
-		} else {
-			sendButton.setEnabled(false);
-		}
+
+		sendButton.setEnabled(false);
 
 		sendButton.setLocation(labelChannels.getX(), textfield.getY());
 		sendButton.setSize(buttonWidth / 2, 20);
 		sendButton.addActionListener(new SendMessage(textfield.getText()));
 
 		panel.add(sendButton, null);
+	}
+
+	public JButton getSendButton() {
+		return sendButton;
+	}
+
+	public void setSendButton(JButton sendButton) {
+		this.sendButton = sendButton;
 	}
 
 	public JList<String> getChannelsList() {
