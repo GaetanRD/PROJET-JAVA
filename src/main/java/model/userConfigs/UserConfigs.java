@@ -18,6 +18,7 @@ import controller.threads.ThreadListenerChannelsList;
 import controller.threads.ThreadListenerMembersList;
 import view.Login;
 import view.MainWindow;
+import view.Log;
 
 public class UserConfigs {
 
