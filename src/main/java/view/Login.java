@@ -25,7 +25,7 @@ public class Login extends JFrame {
 	private JLabel portLabel = new JLabel();
 
 	private JTextField loginField = new JTextField();
-	private JTextField passwordField = new JTextField();
+	private JPasswordField passwordField = new JPasswordField();
 	private JTextField addrServerField = new JTextField();
 	private JTextField portField = new JTextField();
 
@@ -153,7 +153,7 @@ public class Login extends JFrame {
 		return passwordField;
 	}
 
-	public void setPasswordField(JTextField passwordField) {
+	public void setPasswordField(JPasswordField passwordField) {
 		this.passwordField = passwordField;
 	}
 
