@@ -169,7 +169,7 @@ public class Log extends JFrame {
 			if (s != null) {
 				Connection con = Connexion.connecterDB();
 				PreparedStatement pstatement = null;
-				System.out.println(s);
+				
 				pstatement = con.prepareStatement("SELECT * FROM log.log WHERE `Login`= '"+ s +"' ;");
 				ResultSet rs = pstatement.executeQuery();
 				

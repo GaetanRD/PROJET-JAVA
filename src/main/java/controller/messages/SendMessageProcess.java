@@ -95,9 +95,7 @@ public class SendMessageProcess {
 		{
 			Connection con = Connexion.connecterDB();
 			Statement st;
-			System.out.println(Login);
-			System.out.println(Msg);
-			System.out.println(Date);
+			
 			st = con.createStatement();
 			st.executeUpdate("INSERT INTO log.log (`Login`, `Message`, `DATE`) VALUE ('"+ Login +"', '"+ Msg +"', '"+ Date +"');");
 			con.close();
