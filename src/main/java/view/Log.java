@@ -18,7 +18,6 @@ import javax.swing.*;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
@@ -38,11 +37,11 @@ public class Log extends JFrame {
 	
 	private JLabel labelChannels = new JLabel("Pseudo");
 	
-	private JList<String> PseudoList;
-	private JComboBox<Object> liste1;
+	private JComboBox<Object> PseudoList;
 	
-	JScrollPane sPaneTextAreaPseudo = new JScrollPane(PseudoList);
 	JScrollPane sPaneTextMainLabel = new JScrollPane(tpLog);
+	
+	private int buttonHeight = 30;
 
 	public Log() {
 		super();
@@ -72,8 +71,8 @@ public class Log extends JFrame {
 
 	private void MainLabel() {
 		
-		sPaneTextMainLabel.setLocation(10, 10);
-		sPaneTextMainLabel.setSize(600, this.getHeight() - 50);
+		sPaneTextMainLabel.setLocation(10, buttonHeight + 10);
+		sPaneTextMainLabel.setSize(770, this.getHeight() - 80);
 		tpLog.setEditable(false);
 		sPaneTextMainLabel.setBorder(BorderFactory.createLineBorder(Color.black));
 		sPaneTextMainLabel.setOpaque(true);
@@ -87,15 +86,11 @@ public class Log extends JFrame {
 	}
 	
 	private void ListOfPseudoArea() {
-		//JScrollPane sPaneTextAreaChannels = new JScrollPane(PseudoList);
-
-		labelChannels.setLocation(sPaneTextMainLabel.getX() + sPaneTextMainLabel.getWidth() + 5, 10);
-		labelChannels.setSize(this.getWidth() - sPaneTextMainLabel.getWidth() - sPaneTextMainLabel.getX(), 10);
+		labelChannels.setLocation(20, 10);
+		labelChannels.setSize(540 / 3, 20);
 
 		panel.add(labelChannels, null);
 
-		// create the list
-		//PseudoList = new JList<String>();
 		 
 			 try {
 					Connection con = Connexion.connecterDB();
@@ -103,12 +98,12 @@ public class Log extends JFrame {
 					
 					pstatement = con.prepareStatement("SELECT DISTINCT `Login` FROM log.log;");
 					ResultSet rs = pstatement.executeQuery();
-					liste1 = new JComboBox<Object>();
-					liste1.addItem("");
+					PseudoList = new JComboBox<Object>();
+					PseudoList.addItem("");
 					while(rs.next())
 		            {   
 						String login = rs.getString(1);
-						liste1.addItem(login);
+						PseudoList.addItem(login);
 		            }
 					
 				}catch(Exception ex)
@@ -120,19 +115,17 @@ public class Log extends JFrame {
 			 ActionListener cbActionListener = new ActionListener() {//add actionlistner to listen for change
 		            @Override
 		            public void actionPerformed(ActionEvent e) {
-		            	 String s = (String) liste1.getSelectedItem();
-		            	 System.out.println(s);
-		            	 getOperation(s);
+		            	 String P = (String) PseudoList.getSelectedItem();
+		            	 System.out.println(P);
+		            	 getOperation(P);
 		            }
 			 };
-		liste1.addActionListener(cbActionListener);
-		//Object[] elements = new Object[]{};
-		//liste1 = new JComboBox<Object>(elements);
+			 PseudoList.addActionListener(cbActionListener);
 		
-		liste1.setLocation(labelChannels.getX(), labelChannels.getY() + labelChannels.getHeight() + 5);
-		liste1.setSize(labelChannels.getWidth() - 15,  20);
-		liste1.setBackground(Color.white);
-		panel.add(liste1, null);
+			 PseudoList.setLocation(labelChannels.getX() + labelChannels.getWidth() - 130, 10);
+			 PseudoList.setSize(labelChannels.getWidth(), labelChannels.getHeight());
+			 PseudoList.setBackground(Color.white);
+		panel.add(PseudoList, null);
 
 	}
 
@@ -153,24 +146,16 @@ public class Log extends JFrame {
 		this.tpLog = tpLog;
 	}
 	
-	public JScrollPane getSPaneTextAreaPseudo() {
-		return sPaneTextAreaPseudo;
-	}
-
-	public void setSPaneTextAreaPseudo(JScrollPane sPaneTextAreaPseudo) {
-		this.sPaneTextAreaPseudo = sPaneTextAreaPseudo;
-	}
 	
-	
-	public void getOperation(String s)// va récuperer dans la bdd local tous les message en rapport avec le login selectionner
+	public void getOperation(String P)
 	{		
 		try
 		{
-			if (s != null) {
+			if (P != null) {
 				Connection con = Connexion.connecterDB();
 				PreparedStatement pstatement = null;
 				
-				pstatement = con.prepareStatement("SELECT * FROM log.log WHERE `Login`= '"+ s +"' ;");
+				pstatement = con.prepareStatement("SELECT * FROM log.log WHERE `Login`= '"+ P +"' ;");
 				ResultSet rs = pstatement.executeQuery();
 				
 				String text = "";

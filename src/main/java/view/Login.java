@@ -12,7 +12,6 @@ package view;
 import javax.swing.*;
 
 import controller.KeyFieldSize;
-import controller.KeySendMessage;
 import controller.buttons.CloseProgram;
 import controller.buttons.ConnectAction;
 
