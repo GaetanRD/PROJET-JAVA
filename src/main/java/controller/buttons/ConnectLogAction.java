@@ -19,7 +19,7 @@ public class ConnectLogAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 
-	private static MainWindow MainWindow;
+	private static MainWindow Main;
 	
 	public ConnectLogAction(String text) {
 		super(text);
@@ -28,11 +28,12 @@ public class ConnectLogAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("-------- Bouton de connection au Log cliqué -----------");
-
+		
+		//Main.buttonDisplayLogs.setEnabled(false);
 		Log windowLog = new Log();
 		windowLog.setVisible(true);
 		//MainWindow.setVisible(false);
-
+		
 	}
 
 }

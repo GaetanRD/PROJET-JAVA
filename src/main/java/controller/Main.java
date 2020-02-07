@@ -10,13 +10,16 @@ package controller;
 
 import javax.swing.SwingUtilities;
 
+import model.userConfigs.CheckDBClient;
 import model.userConfigs.UserConfigs;
 import view.Login;
 
 public class Main {
 
 	public static void main(String[] args) {
-
+		
+		
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 
@@ -26,6 +29,7 @@ public class Main {
 			}
 
 		});
+		CheckDBClient.main(args);
 
 //		Connection c = null;
 //
