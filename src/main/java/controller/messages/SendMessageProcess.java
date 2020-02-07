@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 
 import javax.swing.JOptionPane;
 
@@ -30,7 +31,7 @@ public class SendMessageProcess {
 	private static final Logger LOG = Logger.getLogger(ConnectAction.class.getName());
 
 	public SendMessageProcess() {
-
+		
 		String msg = null;
 
 		if (UserConfigs.getInstruction() == "subscribe_channel") {
@@ -53,13 +54,13 @@ public class SendMessageProcess {
 		if (!UserConfigs.isLogged()) {
 			try {
 				UserConfigs.setClientSocket(new Socket(UserConfigs.getServer(), UserConfigs.getPort()));
+				
 				UserConfigs.setT(new Thread(new ThreadListener()));
 				UserConfigs.getT().start();
 				UserConfigs.setT3(new Thread(new ThreadListenerChannelsList()));
 				UserConfigs.getT3().start();
 				UserConfigs.setT2(new Thread(new ThreadListenerMembersList()));
 				UserConfigs.getT2().start();
-				
 
 				processClient(msg);
 			} catch (IOException e1) {
@@ -69,7 +70,14 @@ public class SendMessageProcess {
 
 			}
 		} else {
-
+			try {
+				UserConfigs.getClientSocket().setSoTimeout(10000);
+				 System.out.println("Socket time out in "+UserConfigs.getClientSocket()+"ms");  
+			} catch (SocketException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}      
+	         
 			processClient(msg);
 
 		}

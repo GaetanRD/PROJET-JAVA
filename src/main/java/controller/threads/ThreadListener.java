@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
+
+import javax.swing.JOptionPane;
+
 import org.apache.log4j.Logger;
 
 import controller.DecodeJSon;
@@ -57,8 +60,10 @@ public class ThreadListener implements Runnable {
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			LOG.error("Error during reading message from the server.", e);
+			JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Erreur : la connexion au serveur a été perdue",
+					"Information", JOptionPane.INFORMATION_MESSAGE);
+			System.exit(-1);
 		} finally {
 			if (br != null) {
 				br = null;

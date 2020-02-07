@@ -13,12 +13,8 @@ package model.userConfigs;
 import java.net.Socket;
 import java.util.LinkedList;
 
-import controller.threads.ThreadListener;
-import controller.threads.ThreadListenerChannelsList;
-import controller.threads.ThreadListenerMembersList;
 import view.Login;
 import view.MainWindow;
-import view.Log;
 
 public class UserConfigs {
 
