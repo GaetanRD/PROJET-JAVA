@@ -59,7 +59,7 @@ public class CodeSwitch {
 		case 312:
 			if (UserConfigs.getInstruction() == "send_message") {
 				receiveMessageError();
-			} else {
+			} else if (UserConfigs.isLogged()) {
 				errorConnection((Integer) lList.get(0), "Erreur de connexion : Utilisateur déconnecté.");
 			}
 			break;
@@ -114,10 +114,7 @@ public class CodeSwitch {
 	private void connectToAChannel() {
 		if (!UserConfigs.isConnectedToAChannel()) {
 			UserConfigs.setConnectedToAChannel(true);
-		} else {
-			// UserConfigs.setNewChannel(UserConfigs.getMainWindow().getChannelsList().getSelectedValue());
 		}
-		System.out.println("ezgfzegegerger" + UserConfigs.getNewChannel());
 		UserConfigs.setCurrentChannel(UserConfigs.getNewChannel());
 		UserConfigs.getMainWindow().getTp()
 				.setText("Bienvenue dans le canal " + UserConfigs.getCurrentChannel() + "\n");
@@ -130,8 +127,8 @@ public class CodeSwitch {
 		Date date = new Date();
 		UserConfigs.getMainWindow().getTp().setForeground(Color.black);
 
-		UserConfigs.getMainWindow().getTp().setText(UserConfigs.getMainWindow().getTp().getText() + "> " + format.format(date) + " - "
-				+ lList.get(2).toString() + " - " + lList.get(1).toString() + "\n");
+		UserConfigs.getMainWindow().getTp().setText(UserConfigs.getMainWindow().getTp().getText() + "> "
+				+ format.format(date) + " - " + lList.get(2).toString() + " - " + lList.get(1).toString() + "\n");
 
 	}
 
@@ -140,8 +137,8 @@ public class CodeSwitch {
 		Date date = new Date();
 		UserConfigs.getMainWindow().getTp().setForeground(Color.black);
 
-		UserConfigs.getMainWindow().getTp().setText(UserConfigs.getMainWindow().getTp().getText() + "> " + format.format(date)
-				+ "- ERROR - Votre message n'a pas pu être envoyé au serveur\n");
+		UserConfigs.getMainWindow().getTp().setText(UserConfigs.getMainWindow().getTp().getText() + "> "
+				+ format.format(date) + "- ERROR - Votre message n'a pas pu être envoyé au serveur\n");
 
 	}
 
