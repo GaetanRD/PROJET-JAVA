@@ -14,6 +14,10 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 
@@ -23,6 +27,7 @@ import controller.buttons.ConnectAction;
 import controller.threads.ThreadListener;
 import controller.threads.ThreadListenerChannelsList;
 import controller.threads.ThreadListenerMembersList;
+import model.userConfigs.Connexion;
 import model.userConfigs.UserConfigs;
 
 public class SendMessageProcess {
@@ -44,6 +49,7 @@ public class SendMessageProcess {
 			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
 					+ "\",\"channel\":\"" + UserConfigs.getCurrentChannel()
 					+ "\",\"instruction\":\"send_message\",\"message\":" + UserConfigs.getMessage() + "}";
+			Logmsg(msg);
 		} else {
 
 			msg = "{\"login\":\"" + UserConfigs.getLogin() + "\",\"password\":\"sha1:" + UserConfigs.getPass()
@@ -60,7 +66,6 @@ public class SendMessageProcess {
 				UserConfigs.setT2(new Thread(new ThreadListenerMembersList()));
 				UserConfigs.getT2().start();
 				
-
 				processClient(msg);
 			} catch (IOException e1) {
 				LOG.error("Error during socket init.", e1);
@@ -75,12 +80,42 @@ public class SendMessageProcess {
 		}
 
 	}
+	
+	public void Logmsg(String msg) {
+		
+		String Login = UserConfigs.getLogin();
+		String Msg = UserConfigs.getMessage();
+		    
+	    String pattern = "yyyy-MM-dd kk:mm";
+	    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+	    String Date = simpleDateFormat.format(new Date());
+		
+		try
+		{
+			Connection con = Connexion.connecterDB();
+			Statement st;
+			System.out.println(Login);
+			System.out.println(Msg);
+			System.out.println(Date);
+			st = con.createStatement();
+			st.executeUpdate("INSERT INTO log.log (`Login`, `Message`, `DATE`) VALUE ('"+ Login +"', '"+ Msg +"', '"+ Date +"');");
+			con.close();
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			LOG.error("Error during Data Manipulation.", e);
+		}	
+	}
 
 	public void processClient(String msg) {
 		OutputStream out = null;
 		OutputStreamWriter osw = null;
 		PrintWriter pw = null;
-
+		
+		
 		LOG.info("[CLIENT] - Message d'instruction : " + UserConfigs.getInstruction() + " -> " + msg);
 		try {
 			// Open the output stream of the client socket.

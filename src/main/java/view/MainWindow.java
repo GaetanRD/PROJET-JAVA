@@ -10,6 +10,9 @@
 package view;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -54,7 +57,7 @@ public class MainWindow extends JFrame {
 
 	private JTextField textfield = new JTextField();
 
-	private JButton buttonDisplayLogs = new JButton(new ConnectLogAction("Accèder aux logs"));
+	public JButton buttonDisplayLogs = new JButton(new ConnectLogAction("Accèder aux logs"));
 	private JButton disconnectButton = new JButton(new DisconnectAction("Se déconnecter"));
 	private JButton sendButton = new JButton("Envoyer");
 	private JButton createChannel = new JButton(new CreateChannel("Créer un channel"));
@@ -62,6 +65,8 @@ public class MainWindow extends JFrame {
 
 	private int buttonWidth = 300;
 	private int buttonHeight = 30;
+	
+	
 
 	public MainWindow() {
 		super();
@@ -81,7 +86,7 @@ public class MainWindow extends JFrame {
 
 	private JPanel buildContentPane() {
 		panel.setLayout(null);
-
+		
 		LogButton();
 		NewChannelButton();
 		MainLabel();
@@ -98,8 +103,16 @@ public class MainWindow extends JFrame {
 	private void LogButton() {
 		buttonDisplayLogs.setLocation(20, 10);
 		buttonDisplayLogs.setSize(540 / 3, 20);
-
+		
+		/*ActionListener cbActionListener = new ActionListener() {//add actionlistner to listen for change
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	buttonDisplayLogs.setEnabled(false);
+            }
+	 };
+	 	buttonDisplayLogs.addActionListener(cbActionListener);*/
 		panel.add(buttonDisplayLogs, null);
+		
 	}
 
 	private void NewChannelButton() {
@@ -200,7 +213,6 @@ public class MainWindow extends JFrame {
 		textfield.setSize(sPaneTextMainLabel.getWidth(), 20);
 
 		textfield.addKeyListener(new KeySendMessage());
-
 		panel.add(textfield, null);
 	}
 
@@ -228,7 +240,7 @@ public class MainWindow extends JFrame {
 		sendButton.setLocation(labelChannels.getX(), textfield.getY());
 		sendButton.setSize(buttonWidth / 2, 20);
 		sendButton.addActionListener(new SendMessage(textfield.getText()));
-
+		
 		panel.add(sendButton, null);
 	}
 
@@ -279,5 +291,6 @@ public class MainWindow extends JFrame {
 	public void setTextfield(JTextField textfield) {
 		this.textfield = textfield;
 	}
+		
 
 }
