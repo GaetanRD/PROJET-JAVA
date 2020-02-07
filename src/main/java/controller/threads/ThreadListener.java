@@ -31,6 +31,7 @@ public class ThreadListener implements Runnable {
 		LinkedList<Object> lList = new LinkedList<>();
 
 		try {
+	
 			in = UserConfigs.getClientSocket().getInputStream();
 			isr = new InputStreamReader(in, "UTF-8");
 			br = new BufferedReader(isr);
@@ -45,25 +46,22 @@ public class ThreadListener implements Runnable {
 				if (line != null) {
 					final String ip = UserConfigs.getClientSocket().getInetAddress().getHostAddress();
 
-				
 					DecodeJSon dJson = new DecodeJSon(line);
 
 					for (int i = 0; i < dJson.getaObj().size(); i++) {
 						lList.add(dJson.getaObj().get(i));
 					}
-			
+
 					LOG.info(ip + " : " + line);
-					
-					
+
 					new CodeSwitch(lList);
 
 				}
 			}
 		} catch (IOException e) {
 			LOG.error("Error during reading message from the server.", e);
-			JOptionPane.showMessageDialog(UserConfigs.getLoginWindow(), "Erreur : la connexion au serveur a été perdue",
-					"Information", JOptionPane.INFORMATION_MESSAGE);
-			System.exit(-1);
+			
+			
 		} finally {
 			if (br != null) {
 				br = null;

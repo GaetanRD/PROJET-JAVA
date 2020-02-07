@@ -18,8 +18,14 @@ public class SendMessage extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (!UserConfigs.getMainWindow().getTextfield().getText().isEmpty()) {
-			UserConfigs.setInstruction("send_message");
+			if (UserConfigs.getMainWindow().getTextfield().getText().equals("/quit")) {
+				UserConfigs.setInstruction("disconnect");
+				new SendMessageProcess();
+			} else {
+				UserConfigs.setInstruction("send_message");
 			new SendMessageProcess();
+			}
+			
 			UserConfigs.getMainWindow().getTextfield().setText("");
 		}
 		

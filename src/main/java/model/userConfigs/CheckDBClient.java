@@ -12,8 +12,8 @@ public class CheckDBClient {
 		   static final String DB_URL = "jdbc:mysql://localhost:3306/";
 
 		   //  Database credentials
-		   static final String USER = "root";
-		   static final String PASS = "";
+		   static final String USER = "Morgan";
+		   static final String PASS = "Azerty42!";
 		   
 		   public static void main(String[] args) {
 		   Connection conn = null;

@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+
+import javax.swing.JOptionPane;
+
 import org.apache.log4j.Logger;
 
 import controller.buttons.ConnectAction;
@@ -64,6 +67,7 @@ public class ThreadListenerChannelsList extends Thread {
 
 				} catch (IOException e) {
 					LOG.error("Error during socket outputstream.", e);
+					
 				} finally {
 					if (UserConfigs.getClientSocket().isClosed()) {
 						if (pw != null) {
@@ -78,7 +82,7 @@ public class ThreadListenerChannelsList extends Thread {
 					}
 				}
 			}
-		} while (UserConfigs.isLogged());
-	}
+		}while(UserConfigs.isLogged());
+}
 
 }

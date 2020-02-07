@@ -183,9 +183,6 @@ public class CodeSwitch {
 		UserConfigs.getLoginWindow().getLoginField().setText(null);
 		UserConfigs.getMainWindow().getTextAreaMembers().setText(null);
 
-		UserConfigs.setStopTheThread(true);
-		UserConfigs.setStopTheThreadMembers(true);
-		UserConfigs.setStopTheThreadChannels(true);
 		UserConfigs.setLogged(false);
 		UserConfigs.setConnectedToAChannel(false);
 
